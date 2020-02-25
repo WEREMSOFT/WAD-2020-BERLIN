@@ -53,7 +53,7 @@ int main() {
 
     double time_row_mayor = ((double) end) / CLOCKS_PER_SEC;
 
-    printf("elapsed time %f seconds\n",  time_row_mayor / time_col_mayor);
+    printf("elapsed time relation (col_mayor / row mayor) %f seconds\n",   time_col_mayor / time_row_mayor);
     printf("Result: %Lf\n", result);
 
     free(matrix);
