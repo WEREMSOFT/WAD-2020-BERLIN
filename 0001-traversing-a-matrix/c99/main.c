@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MATRIX_SIZE 20000
-typedef unsigned int matrix_t;
+#define MATRIX_SIZE 40000
+typedef char matrix_t;
 
 int main() {
 

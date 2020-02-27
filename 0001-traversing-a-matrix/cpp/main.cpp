@@ -1,9 +1,9 @@
 #include <iostream>
 #include <chrono>
 
-#define MATRIX_SIZE 20000
+#define MATRIX_SIZE 40000
 
-typedef unsigned int matrix_t;
+typedef char matrix_t;
 
 int main() {
     auto matNumbers = new matrix_t[MATRIX_SIZE][MATRIX_SIZE];
