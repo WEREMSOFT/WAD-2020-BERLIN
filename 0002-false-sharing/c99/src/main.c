@@ -10,18 +10,20 @@ int array[100];
 void *heavy_loop(void *param) {
     int index = *((int *) param);
     int i;
-    for (i = 0; i < 100000000; i++)
+    for (i = 0; i < 100000000; i++){
         array[index] += 3;
+    }
+    return NULL;
 }
 
-void fix_time(struct timespec* start, struct timespec* finish, long long *seconds, long long *ns){
+void fix_time(struct timespec* start, struct timespec* finish, long int *seconds, long int *ns){
     if (start->tv_nsec > finish->tv_nsec) { // clock underflow
         --(*seconds);
         (*ns) += 1000000000;
     }
 }
 
-void print_results(long long *seconds, long long *ns){
+void print_results(long int *seconds, long int *ns){
     printf("seconds without ns: %ld\n", *seconds);
     printf("nanoseconds: %ld\n", *ns);
     printf("total seconds: %ld\n", *seconds + *ns/1000000000);
