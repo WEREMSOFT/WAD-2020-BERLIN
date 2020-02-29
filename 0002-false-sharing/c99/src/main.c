@@ -79,9 +79,9 @@ int main(int argc, char *argv[]) {
     printf("\nSequential no thread :\n");
     print_results(&time3s, &time3ns);
 
-    printf("No thread / False Sharing ratio: %.2f%\n", (float)((float)time1ns / (float)time3ns) * 100.0);
-    printf("No false sharing / False Sharing ratio: %.2f%\n", (float)((float)time1ns / (float)time2ns) * 100.0);
-    printf("No thread / No False Sharing ratio: %.2f%\n", (float)((float)time3ns / (float)time2ns) * 100.0);
+    printf("No thread / False Sharing ratio: %.2f%% \n", (float)((float)time1ns / (float)time3ns) * 100.0);
+    printf("No false sharing / False Sharing ratio: %.2f%% \n", (float)((float)time1ns / (float)time2ns) * 100.0);
+    printf("No thread / No False Sharing ratio: %.2f%% \n", (float)((float)time3ns / (float)time2ns) * 100.0);
 
     return 0;
 }
