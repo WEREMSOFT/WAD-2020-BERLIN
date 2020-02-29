@@ -1,0 +1,25 @@
+﻿<Properties StartupConfiguration="{ADD6FC9E-3E6F-45DF-BF10-1E0958923766}|Default">
+  <MonoDevelop.Ide.ItemProperties.HelloWorld PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="HelloWorld/Program.cs">
+    <Files>
+      <File FileName="HelloWorld/Program.cs" Line="14" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="HelloWorld" expanded="True">
+            <Node name="HelloWorld" expanded="True">
+              <Node name="Program.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

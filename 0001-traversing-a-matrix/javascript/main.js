@@ -18,7 +18,7 @@ for(let j = 0; j < MATRIX_SIZE; j++){
 }
 let endTime_column = new Date() - beginTime;
 
-console.log('time by col mayor: ', endTime_column);
+console.log('time by cache UNFriendly: ', endTime_column);
 console.log('result ' + result);
 
 beginTime = new Date();
@@ -29,7 +29,7 @@ for(let j = 0; j < MATRIX_SIZE; j++){
 }
 let endTime_row = new Date() - beginTime;
 
-console.log('time by row mayor: ', endTime_row);
+console.log('time by cache friendly: ', endTime_row);
 console.log('result ' + result);
 
 console.log('time difference: column / row', endTime_column / endTime_row);
