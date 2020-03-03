@@ -23,9 +23,9 @@ public class Main {
         }
         long end = System.nanoTime();
 
-        double cache_friendly = (end - begin) / 100000 ;
+        double cache_friendly = (end - begin) ;
 
-        System.out.println("Cache firendly lapsed time: " + cache_friendly);
+        System.out.println("Cache friendly elapsed time: " + cache_friendly);
 
         result = 0;
 
@@ -37,7 +37,7 @@ public class Main {
         }
         end = System.nanoTime();
 
-        double cache_unfriendly = (end - begin) / 100000;
+        double cache_unfriendly = (end - begin);
 
         System.out.println("Cache UNfriendly elapsed time: " + cache_unfriendly);
 

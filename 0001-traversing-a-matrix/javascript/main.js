@@ -30,7 +30,6 @@ for(let j = 0; j < MATRIX_SIZE; j++){
 let endTime_row = new Date() - beginTime;
 
 console.log('time by cache friendly: ', endTime_row);
-console.log('result ' + result);
 
 console.log('time difference: column / row', endTime_column / endTime_row);
 
