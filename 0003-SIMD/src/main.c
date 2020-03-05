@@ -5,7 +5,7 @@
 #include <stdatomic.h>
 #include <wasm_simd128.h>
 
-#define USE_SIMD
+//#define USE_SIMD
 
 static double os_get_time(void) {
     struct timespec tms;
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
 
     atomic_thread_fence(memory_order_relaxed);
 
-#ifdef USE_SIMD
+//#ifdef USE_SIMD
     for (int i = 0; i < size; i += 4) {
         v4si *a_ptr = (v4si *) &a[i];
         v4si *b_ptr = (v4si *) &b[i];
@@ -43,11 +43,11 @@ int main(int argc, char *argv[]) {
         *c_ptr = *a_ptr + *b_ptr;
     }
 
-#else
+//#else
     for (int i = 0; i < size; i += 1) {
         c[i] = a[i] + b[i];
     }
-#endif
+//#endif
 
     atomic_thread_fence(memory_order_relaxed);
 
