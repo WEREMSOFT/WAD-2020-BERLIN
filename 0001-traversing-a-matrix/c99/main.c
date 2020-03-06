@@ -3,7 +3,8 @@
 #include <time.h>
 
 #define MATRIX_SIZE 40000
-typedef char matrix_t;
+// if we change this to char, the difference will be smaller
+typedef unsigned int matrix_t;
 
 int main() {
 
@@ -20,24 +21,35 @@ int main() {
 
     srand(time(NULL));
 
+    long long loops = 0;
+
     for (int i = 0; i < MATRIX_SIZE; i++) {
         for (int j = 0; j < MATRIX_SIZE; j++) {
             matrix[i * MATRIX_SIZE + j] = (matrix_t) rand();
+            loops++;
         }
     }
+    printf("loops: %lld\n", loops);
 
     time_t begin = clock();
-
     for (int j = 0; j < MATRIX_SIZE; j++) {
         for (int i = 0; i < MATRIX_SIZE; i++) {
             result += matrix[i * MATRIX_SIZE + j];
         }
     }
-
     time_t end = clock() - begin;
+    printf("result: %Lf\n", result);
 
-    double time_col_mayor = ((double) end) / CLOCKS_PER_SEC;
+    double time_col_mayor = ((double) end);
 
+    srand(time(NULL));
+
+
+    for (int i = 0; i < MATRIX_SIZE; i++) {
+        for (int j = 0; j < MATRIX_SIZE; j++) {
+            matrix[i * MATRIX_SIZE + j] = (matrix_t) rand();
+        }
+    }
 
     result = 0;
 
@@ -50,9 +62,11 @@ int main() {
 
     end = clock() - begin;
 
-    double time_row_mayor = ((double) end) / CLOCKS_PER_SEC;
+    printf("result: %Lf\n", result);
 
-    printf("elapsed time relation (col_mayor / row mayor) %f seconds\n",   time_col_mayor / time_row_mayor);
+    double time_row_mayor = ((double) end);
+
+    printf("elapsed time relation (col_mayor / row mayor) %f\n",   time_col_mayor / time_row_mayor);
 
     free(matrix);
     return 0;
