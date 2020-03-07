@@ -17,5 +17,3 @@ else()
     message("$ENV{CC}")
     add_executable(${CMAKE_PROJECT_NAME} main.c)
 endif()
-
-

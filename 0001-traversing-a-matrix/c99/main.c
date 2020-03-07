@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MATRIX_SIZE 20000
+#define MATRIX_SIZE 40000
+// if we change this to char, the difference will be smaller
 typedef unsigned int matrix_t;
 
 int main() {
@@ -27,17 +28,24 @@ int main() {
     }
 
     time_t begin = clock();
-
     for (int j = 0; j < MATRIX_SIZE; j++) {
         for (int i = 0; i < MATRIX_SIZE; i++) {
             result += matrix[i * MATRIX_SIZE + j];
         }
     }
-
     time_t end = clock() - begin;
+    printf("result: %Lf\n", result);
 
     double time_col_mayor = ((double) end);
 
+    srand(time(NULL));
+
+
+    for (int i = 0; i < MATRIX_SIZE; i++) {
+        for (int j = 0; j < MATRIX_SIZE; j++) {
+            matrix[i * MATRIX_SIZE + j] = (matrix_t) rand();
+        }
+    }
 
     result = 0;
 
@@ -50,9 +58,11 @@ int main() {
 
     end = clock() - begin;
 
+    printf("result: %Lf\n", result);
+
     double time_row_mayor = ((double) end);
 
-    printf("elapsed time relation (col_mayor / row mayor) %f seconds\n",   time_col_mayor / time_row_mayor);
+    printf("elapsed time relation (col_mayor / row mayor) %f\n",   time_col_mayor / time_row_mayor);
 
     free(matrix);
     return 0;
