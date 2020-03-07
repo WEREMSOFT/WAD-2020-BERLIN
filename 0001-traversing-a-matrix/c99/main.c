@@ -7,9 +7,9 @@
 typedef unsigned int matrix_t;
 
 int main() {
+    long double result = 0;
 
     printf("allocating %ld bytes\n", sizeof(matrix_t) * MATRIX_SIZE * MATRIX_SIZE);
-
     matrix_t *matrix = (matrix_t *) malloc(sizeof(matrix_t) * MATRIX_SIZE * MATRIX_SIZE);
 
     if (matrix == NULL) {
@@ -17,10 +17,7 @@ int main() {
         return -1;
     }
 
-    long double result = 0;
-
     srand(time(NULL));
-
     for (int i = 0; i < MATRIX_SIZE; i++) {
         for (int j = 0; j < MATRIX_SIZE; j++) {
             matrix[i * MATRIX_SIZE + j] = (matrix_t) rand();
@@ -34,21 +31,10 @@ int main() {
         }
     }
     time_t end = clock() - begin;
+    double time_cache_un_friendly = ((double) end);
     printf("result: %Lf\n", result);
 
-    double time_col_mayor = ((double) end);
-
-    srand(time(NULL));
-
-
-    for (int i = 0; i < MATRIX_SIZE; i++) {
-        for (int j = 0; j < MATRIX_SIZE; j++) {
-            matrix[i * MATRIX_SIZE + j] = (matrix_t) rand();
-        }
-    }
-
     result = 0;
-
     begin = clock();
     for (int i = 0; i < MATRIX_SIZE; i++) {
         for (int j = 0; j < MATRIX_SIZE; j++) {
@@ -57,12 +43,10 @@ int main() {
     }
 
     end = clock() - begin;
-
+    double time_cache_friendly = ((double) end);
     printf("result: %Lf\n", result);
 
-    double time_row_mayor = ((double) end);
-
-    printf("elapsed time relation (col_mayor / row mayor) %f\n",   time_col_mayor / time_row_mayor);
+    printf("elapsed time relation (chache_UNfriendy / chache_friendy) %f\n", time_cache_un_friendly / time_cache_friendly);
 
     free(matrix);
     return 0;
