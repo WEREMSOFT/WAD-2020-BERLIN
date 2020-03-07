@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MATRIX_SIZE 40000
-typedef char matrix_t;
+#define MATRIX_SIZE 20000
+typedef unsigned int matrix_t;
 
 int main() {
 
@@ -36,7 +36,7 @@ int main() {
 
     time_t end = clock() - begin;
 
-    double time_col_mayor = ((double) end) / CLOCKS_PER_SEC;
+    double time_col_mayor = ((double) end);
 
 
     result = 0;
@@ -50,7 +50,7 @@ int main() {
 
     end = clock() - begin;
 
-    double time_row_mayor = ((double) end) / CLOCKS_PER_SEC;
+    double time_row_mayor = ((double) end);
 
     printf("elapsed time relation (col_mayor / row mayor) %f seconds\n",   time_col_mayor / time_row_mayor);
 
