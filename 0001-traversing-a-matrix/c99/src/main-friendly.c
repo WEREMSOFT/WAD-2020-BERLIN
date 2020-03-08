@@ -17,7 +17,7 @@ int main() {
         }
     }
 
-    matrix_t result = matrix[(MATRIX_SIZE - 1) * (MATRIX_SIZE - 1) + MATRIX_SIZE - 1];
+    matrix_t result = (int)matrix[(MATRIX_SIZE - 1) * (int)(MATRIX_SIZE - 1) + MATRIX_SIZE - 1];
 
     free(matrix);
     return result;
