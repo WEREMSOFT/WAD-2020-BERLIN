@@ -5,13 +5,13 @@ public class Main {
         final int ROW_MAX = 10000;
         final int COL_MAX = 10000;
 
-        double result = 0;
+        long result = 0;
 
-        float[][] arrNumbers = new float[ROW_MAX][COL_MAX];
+        char[][] arrNumbers = new char[ROW_MAX][COL_MAX];
 
         for (int j = 0; j < COL_MAX; j++) {
             for (int i = 0; i < ROW_MAX; i++) {
-                arrNumbers[i][j] = (float) Math.random();
+                arrNumbers[i][j] = (char) Math.random();
             }
         }
 
