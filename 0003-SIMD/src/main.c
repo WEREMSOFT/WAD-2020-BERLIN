@@ -5,7 +5,7 @@
 #include <stdatomic.h>
 #include <wasm_simd128.h>
 
-#define USE_SIMD
+//#define USE_SIMD
 
 static double os_get_time(void) {
     struct timespec tms;
@@ -64,5 +64,48 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
-// NO SIMD    0.009645
-// SIMD time: 0.002845
+// BIN
+// NO SIMD    0.003544
+// SIMD time: 0.002979
+
+//Chrome
+//
+// NO SIMD  0.003070
+// SIMD     0.001140
+//typedef struct Vector3 {
+//    float x;
+//    float y;
+//    float z;
+//} Vector3;
+//
+//Vector3 vertex_arr[100];
+//
+//void apply_gravity(Vector3* vertex){
+//    float gravity = 9.81;
+//    for(int i = 0; i < 100; i++){
+//        vertex_arr[i].y += gravity;
+//    }
+//}
+//
+//
+//float x[100];
+//float y[100];
+//float z[100];
+//
+//void apply_gravity(float* vertex_y){
+//    float gravity = 9.81;
+//    for(int i = 0; i < 100; i++){
+//        vertex_y[i] += gravity;
+//    }
+//}
+
+
+
+
+
+
+
+
+
+
+
