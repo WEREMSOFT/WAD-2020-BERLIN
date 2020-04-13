@@ -42,7 +42,7 @@ int main() {
 
     SetCameraMode(camera, CAMERA_ORBITAL);
 
-    SetTargetFPS(60);
+    SetTargetFPS(2000);
 
     pthread_t update_x, update_y, update_z;
 

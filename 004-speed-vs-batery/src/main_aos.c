@@ -30,7 +30,7 @@ int main() {
 
     SetCameraMode(camera, CAMERA_ORBITAL);
 
-    SetTargetFPS(60);
+    SetTargetFPS(2000);
 
     while(!WindowShouldClose()){
         ClearBackground(RAYWHITE);
