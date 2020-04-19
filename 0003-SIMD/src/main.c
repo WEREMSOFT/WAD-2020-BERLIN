@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
 
     atomic_thread_fence(memory_order_relaxed);
 
-//#ifdef USE_SIMD
+#ifdef USE_SIMD
     for (int i = 0; i < size; i += 4) {
         v4si *a_ptr = (v4si *) &a[i];
         v4si *b_ptr = (v4si *) &b[i];
@@ -43,11 +43,11 @@ int main(int argc, char *argv[]) {
         *c_ptr = *a_ptr + *b_ptr;
     }
 
-//#else
+#else
     for (int i = 0; i < size; i += 1) {
         c[i] = a[i] + b[i];
     }
-//#endif
+#endif
 
     atomic_thread_fence(memory_order_relaxed);
 
@@ -64,3 +64,48 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
+// BIN
+// NO SIMD    0.003544
+// SIMD time: 0.002979
+
+//Chrome
+//
+// NO SIMD  0.003070
+// SIMD     0.001140
+//typedef struct Vector3 {
+//    float x;
+//    float y;
+//    float z;
+//} Vector3;
+//
+//Vector3 vertex_arr[100];
+//
+//void apply_gravity(Vector3* vertex){
+//    float gravity = 9.81;
+//    for(int i = 0; i < 100; i++){
+//        vertex_arr[i].y += gravity;
+//    }
+//}
+//
+//
+//float x[100];
+//float y[100];
+//float z[100];
+//
+//void apply_gravity(float* vertex_y){
+//    float gravity = 9.81;
+//    for(int i = 0; i < 100; i++){
+//        vertex_y[i] += gravity;
+//    }
+//}
+
+
+
+
+
+
+
+
+
+
+

@@ -5,66 +5,25 @@ namespace HelloWorld
 {
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
 
-            var cad = new Cadorna();
 
-            cad.sarlanga = "sarasa";
+            const uint MATRIX_SIZE = 40000;
+            char[,] matrix = new char[MATRIX_SIZE, MATRIX_SIZE];
 
-            const int MATRIX_SIZE = 20000;
-            int[,] matrix = new int[MATRIX_SIZE, MATRIX_SIZE];
-
-            long result = 0;
-
-            Random rnd = new Random();
-            Stopwatch sw = new Stopwatch();
-
-
-
-            for(int i = 0; i < MATRIX_SIZE; i++)
-            {
-                for (int j = 0; j < MATRIX_SIZE; j++)
-                {
-                    matrix[i, j] = rnd.Next();
-                }
-            }
-
-            sw.Start();
 
             for (int i = 0; i < MATRIX_SIZE; i++)
             {
                 for (int j = 0; j < MATRIX_SIZE; j++)
                 {
-                    result += matrix[i, j];
+                    matrix[j, i] = (char)(i + j);
                 }
             }
 
-            sw.Stop();
-
-            Console.WriteLine("Hello World! {0}. Elapsed: {1}", result, sw.ElapsedMilliseconds);
-
-            sw.Reset();
-
-            sw.Start();
-
-            for (int i = 0; i < MATRIX_SIZE; i++)
-            {
-                for (int j = 0; j < MATRIX_SIZE; j++)
-                {
-                    result += matrix[j, i];
-                }
-            }
-
-            sw.Stop();
-
-            Console.WriteLine("Hello World! {0}. Elapsed: {1}", result, sw.ElapsedMilliseconds);
+            return matrix[MATRIX_SIZE - 1, MATRIX_SIZE - 1];
         }
     }
 
-    class Cadorna
-    {
-        public String sarlanga;
-    }
 
 }
