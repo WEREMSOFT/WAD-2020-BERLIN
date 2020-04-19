@@ -3,6 +3,10 @@
 #include <raymath.h>
 #include <string.h>
 
+#ifdef PLATFORM_WEB
+#include <emscripten/emscripten.h>
+#endif
+
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
 #define PARTICLES_COUNT 200000
@@ -15,10 +19,6 @@ Vector3 velocity_create() {
 int main() {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Test Energy Consumption - AOS");
 
-    Image checked = GenImageChecked(2, 2, 2, 1, RED, GREEN);
-    Texture2D texture = LoadTextureFromImage(checked);
-    UnloadImage(checked);
-
     Vector3 particles[PARTICLES_COUNT] = {0};
     Vector3 particles_speed[PARTICLES_COUNT] = {0};
 
@@ -30,10 +30,10 @@ int main() {
 
     SetCameraMode(camera, CAMERA_ORBITAL);
 
-    SetTargetFPS(2000);
+    SetTargetFPS(60);
 
     while(!WindowShouldClose()){
-        ClearBackground(RAYWHITE);
+        ClearBackground(GREEN);
         Vector3 delta = Vector3Scale(GRAVITY, GetFrameTime());
         UpdateCamera(&camera);
         // Update particles position
@@ -61,6 +61,7 @@ int main() {
             EndMode3D();
 
             DrawFPS(10, 10);
+            DrawText("AOS", 10, 50, 24, RED);
         }EndDrawing();
     }
 

@@ -3,24 +3,36 @@ set(CMAKE_C_STANDARD 99)
 project(004_speed_vs_batery_AOS C)
 project(004_speed_vs_batery_SOA C)
 
+set(CMAKE_C_FLAGS_DEFAULT "-v -Wall")
+
+file(GLOB sources ./src/*)
+
+message("Building for ${CMAKE_BUILD_TYPE}")
+
 find_library(COCOA_LIBRARY Cocoa)
 find_library(LIB_GLUT GLUT)
 find_library(OPEN_GL_LIBRARY OpenGL)
 find_library(CORE_VIDEO_LIBRARY CoreVideo)
 
 include_directories(${CMAKE_SOURCE_DIR}/libs/include)
-file(GLOB sources "${CMAKE_SOURCE_DIR}/src/*")
 link_directories(${CMAKE_SOURCE_DIR}/libs/static)
 
-set(CMAKE_C_FLAGS "-framework IOKit -v")
-
-
-message("BUILDING BINARY")
-message("CC compiler : $ENV{CC}")
-
-add_executable(test__AOS ./src/main_aos.c)
-target_link_libraries(test__AOS raylib flecs_static ${OPEN_GL_LIBRARY} ${LIB_GLUT} ${COCOA_LIBRARY} ${CORE_VIDEO_LIBRARY})
-
-
-add_executable(test__SOA ./src/main_soa.c)
-target_link_libraries(test__SOA raylib flecs_static ${OPEN_GL_LIBRARY} ${LIB_GLUT} ${COCOA_LIBRARY} ${CORE_VIDEO_LIBRARY})
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+    message("Es Debug")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS_DEFAULT} -framework IOKit -v")
+    add_executable(004_speed_vs_batery_AOS ./src/main_aos.c)
+    target_link_libraries(004_speed_vs_batery_AOS raylib flecs_static ${OPEN_GL_LIBRARY} ${LIB_GLUT} ${COCOA_LIBRARY} ${CORE_VIDEO_LIBRARY})
+    message("CC compiler : $ENV{CC}")
+    add_executable(004_speed_vs_batery_SOA ./src/main_soa.c)
+    target_link_libraries(004_speed_vs_batery_SOA raylib flecs_static ${OPEN_GL_LIBRARY} ${LIB_GLUT} ${COCOA_LIBRARY} ${CORE_VIDEO_LIBRARY})
+elseif(CMAKE_BUILD_TYPE MATCHES "HTML")
+    message("Es html")
+    set(CC_PATH $ENV{CC})
+    add_compile_definitions(PLATFORM_WEB=TRUE)
+    message("Path to emscripten compiler: ${CC_PATH}")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS_DEFAULT} -g -O1 -s USE_GLFW=3 -s TOTAL_MEMORY=67108864")
+    set(CMAKE_EXE_LINKER_FLAGS "../libs/static/libraylib.bc -O1 -g4")
+    set(LDLIBS "./libs/static/libraylib.bc")
+    add_executable(004_speed_vs_batery_SOA.html ./src/main_soa.c ./libs/static/libraylib.bc)
+    add_executable(004_speed_vs_batery_AOS.html ./src/main_aos.c ./libs/static/libraylib.bc)
+endif()

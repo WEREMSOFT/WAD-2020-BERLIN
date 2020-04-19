@@ -9,6 +9,20 @@
 #define PARTICLES_COUNT 200000
 #define GRAVITY -0.9f
 
+#ifdef PLATFORM_WEB
+    #include <emscripten/emscripten.h>
+#endif
+
+Camera3D camera = {{55, 54, 55}, {0, 0.2, 0}, {0, 1, 0}, 45.0f, CAMERA_PERSPECTIVE};
+
+float particles_x[PARTICLES_COUNT] = {0};
+float particles_y[PARTICLES_COUNT] = {0};
+float particles_z[PARTICLES_COUNT] = {0};
+
+float particles_speed_x[PARTICLES_COUNT] = {0};
+float particles_speed_y[PARTICLES_COUNT] = {0};
+float particles_speed_z[PARTICLES_COUNT] = {0};
+
 float velocity_x_z_create() {
     return GetRandomValue(-10, 10) / 100.0f;
 }
@@ -17,38 +31,24 @@ float velocity_y_create() {
     return GetRandomValue(-100, 100) / 100.0f;
 }
 
+
 int main() {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Test Energy Consumption - SOA");
-
-    Image checked = GenImageChecked(2, 2, 2, 1, RED, GREEN);
-    Texture2D texture = LoadTextureFromImage(checked);
-    UnloadImage(checked);
-
-    float particles_x[PARTICLES_COUNT] = {0};
-    float particles_y[PARTICLES_COUNT] = {0};
-    float particles_z[PARTICLES_COUNT] = {0};
-
-    float particles_speed_x[PARTICLES_COUNT] = {0};
-    float particles_speed_y[PARTICLES_COUNT] = {0};
-    float particles_speed_z[PARTICLES_COUNT] = {0};
-
     for(int i = 0; i < PARTICLES_COUNT; i++) {
         particles_speed_x[i] = velocity_x_z_create();
         particles_speed_z[i] = velocity_x_z_create();
         particles_speed_y[i] = velocity_y_create();
     }
 
-    Camera3D camera = {{55, 54, 55}, {0, 0.2, 0}, {0, 1, 0}, 45.0f, CAMERA_PERSPECTIVE};
-
     SetCameraMode(camera, CAMERA_ORBITAL);
 
-    SetTargetFPS(2000);
+    SetTargetFPS(60);
 
     pthread_t update_x, update_y, update_z;
 
     while(!WindowShouldClose()){
         UpdateCamera(&camera);
-        ClearBackground(RAYWHITE);
+        ClearBackground(RED);
         float scalar_delta = GetFrameTime() * GRAVITY;
 
         // Update particles position
@@ -79,7 +79,8 @@ int main() {
             }
         }
 
-        BeginDrawing();{
+        BeginDrawing();
+        {
 
 //             unsigned int i = 0;
 //             for(int j = 8000; j < PARTICLES_COUNT; j += 8000) {
@@ -91,11 +92,13 @@ int main() {
 //                 }EndMode3D();
 //             }
             BeginMode3D(camera);
-                DrawGrid(10, 10);
+            DrawGrid(10, 10);
             EndMode3D();
 
             DrawFPS(10, 10);
-        }EndDrawing();
+            DrawText("SOA", 10, 50, 24, GREEN);
+        }
+        EndDrawing();
     }
 
     return 0;
