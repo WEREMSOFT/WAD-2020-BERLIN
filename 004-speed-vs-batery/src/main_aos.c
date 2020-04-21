@@ -3,6 +3,7 @@
 typedef struct PhysicObject {
     Vector3 position;
     Vector3 velocity;
+    unsigned long bufferi[1800000000];
 } PhysicObject;
 
 Vector3 velocity_create() {
@@ -55,7 +56,7 @@ int main() {
             BeginMode3D(camera);
             {
 //                for (int j = 0; j < PARTICLES_COUNT; j += 1) {
-//                    DrawBillboard(camera, texture, particles[j], 1.0f, WHITE);
+//                    DrawBillboard(camera, texture, particles[j].position, 1.0f, WHITE);
 //                }
                 DrawGrid(10, 10);
             }

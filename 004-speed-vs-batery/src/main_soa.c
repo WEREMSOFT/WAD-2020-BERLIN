@@ -56,9 +56,9 @@ int main() {
         }
 
         for (uint_fast64_t i = 0; i < PARTICLES_COUNT; i++) {
-//            particles_x[i] += particles_speed_x[i];
+            particles_x[i] += particles_speed_x[i];
             particles_y[i] += particles_speed_y[i];
-//            particles_z[i] += particles_speed_z[i];
+            particles_z[i] += particles_speed_z[i];
 
             if (particles_y[i] <= 0) {
                 particles_y[i] = 0;
