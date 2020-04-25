@@ -1,9 +1,29 @@
 #include "config.h"
 
-typedef struct PhysicObject {
+typedef struct GameObject {
     Vector3 position;
     Vector3 velocity;
-} PhysicObject;
+} GameObject;
+
+typedef struct FatObject {
+    Vector3 acceleration;
+    Rectangle collision_rectangle;
+    // Drawable Data
+    Texture texture;
+    Vector3 vertices[4];
+    Rectangle textureRect;
+    // Transform Data
+    Vector2 origin;
+
+    float rotation;
+    Vector2 scale;
+    Matrix transform;
+    bool transformNeedUpdate;
+    Matrix inverseTransform;
+    bool inverseTransformNeedUpdate;
+    void *parent;
+    void* children[50];
+} FatObject;
 
 Vector3 velocity_create() {
     return (Vector3) {
@@ -15,12 +35,15 @@ Vector3 velocity_create() {
 int main() {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Test Energy Consumption - CACHE FRIENDLY");
 
+#ifdef DRAW_PARTICLES
     Image checked = GenImageChecked(4, 4, 2, 2, RED, GREEN);
     Texture2D texture = LoadTextureFromImage(checked);
     UnloadImage(checked);
-    printf("Allocating %lu bytes\n", sizeof(Vector3) * PARTICLES_COUNT * 2);
+#endif
 
-    PhysicObject *particles = (PhysicObject *) malloc(sizeof(PhysicObject) * PARTICLES_COUNT);
+    printf("Allocating %lu bytes\n", sizeof(GameObject) * PARTICLES_COUNT);
+
+    GameObject *particles = (GameObject *) malloc(sizeof(GameObject) * PARTICLES_COUNT);
 
     for (unsigned long int i = 0; i < PARTICLES_COUNT; i++) {
         particles[i].velocity = velocity_create();
@@ -43,7 +66,7 @@ int main() {
             particles[i].position.z += particles[i].velocity.z;
 
             if (particles[i].position.y <= 0) {
-                particles[i].position = (Vector3){0, 0, 0, 0};
+                particles[i].position = (Vector3){.0f, .0f, .0f };
                 particles[i].velocity = velocity_create();
             }
         }
@@ -69,6 +92,8 @@ int main() {
         EndDrawing();
     }
     free(particles);
+#ifdef DRAW_PARTICLES
     UnloadTexture(texture);
+#endif
     return 0;
 }
