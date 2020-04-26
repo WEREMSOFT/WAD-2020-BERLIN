@@ -6,8 +6,36 @@ Vector3 velocity_create() {
     return (Vector3){GetRandomValue(-10, 10) / 100.0f, GetRandomValue(-100, 100) / 100.0f, GetRandomValue(-10, 10) / 100.0f};
 }
 
-Vector3 *particles;
-Vector3 *particles_speed;
+typedef struct GameObject {
+    // This is the esential information we want to work with
+    Vector3 position;
+    Vector3 velocity;
+
+    // Extra parameters that can have a game object
+    Vector3 collisionBoxSize;
+    Vector3 collisionOffset;
+    Vector3 acceleration;
+    Vector3 forcesSum;
+    Vector3 drag;
+    float restitutionCoeficient;
+
+    float health;
+    float strength;
+    float stamina;
+
+    char name[100];
+
+    ModelAnimation animation;
+    Model model;
+
+    unsigned int state;
+    Texture texture;
+
+    void *children;
+    void *parent;
+} GameObject;
+
+GameObject *particles;
 
 void UpdateDrawFrame() {
     ClearBackground(RED);
@@ -15,11 +43,15 @@ void UpdateDrawFrame() {
     UpdateCamera(&camera);
     // Update particles position
     for(unsigned int i = 0; i < PARTICLES_COUNT; i++){
-        particles_speed[i] = Vector3Add(particles_speed[i], delta);
-        particles[i] = Vector3Add(particles[i], particles_speed[i]);
-        if(particles[i].y <= 0) {
-            particles[i] = Vector3Zero();
-            particles_speed[i] = velocity_create();
+        particles[i].velocity.x += delta.x;
+        particles[i].velocity.y += delta.y;
+        particles[i].velocity.z += delta.z;
+        particles[i].position.x += particles[i].velocity.x;
+        particles[i].position.y += particles[i].velocity.y;
+        particles[i].position.z += particles[i].velocity.z;
+        if(particles[i].position.y <= 0) {
+            particles[i].position = Vector3Zero();
+            particles[i].velocity = velocity_create();
         }
     }
 
@@ -28,7 +60,7 @@ void UpdateDrawFrame() {
         BeginMode3D(camera);
         {
             for(int i = 0; i < MAX_PARTICLES_TO_DRAW; i++){
-                DrawBillboard(camera, texture, particles[i], 1.0f, WHITE);
+                DrawBillboard(camera, texture, particles[i].position, 1.0f, WHITE);
             }
         }EndMode3D();
 #endif
@@ -52,13 +84,10 @@ int main() {
     texture = LoadTextureFromImage(checked);
     UnloadImage(checked);
 
-
-
-    particles = (Vector3*) calloc(sizeof(Vector3), PARTICLES_COUNT);
-    particles_speed = (Vector3*) calloc(sizeof(Vector3), PARTICLES_COUNT);
+    particles = (GameObject *) calloc(sizeof(GameObject), PARTICLES_COUNT);
 
     for(unsigned long int i = 0; i < PARTICLES_COUNT; i++){
-        particles_speed[i] = velocity_create();
+        particles[i].velocity = velocity_create();
     }
 
     SetCameraMode(camera, CAMERA_ORBITAL);

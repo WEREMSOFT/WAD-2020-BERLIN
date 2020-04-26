@@ -40,11 +40,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7e3664d4-70da-49e6-8dd3-ff53e85cbaa1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main_optimized.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_optimized.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main_unoptimized.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_unoptimized.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -97,7 +94,7 @@
       <recent name="$PROJECT_DIR$/libs/includes" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.speed_vs_batery_unoptimized">
+  <component name="RunManager" selected="CMake Application.speed_vs_batery_optimized">
     <configuration name="speed_vs_batery_optimized" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="speed_vs_batery_unoptimized" TARGET_NAME="speed_vs_batery_optimized" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="speed_vs_batery_unoptimized" RUN_TARGET_NAME="speed_vs_batery_optimized">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -165,29 +162,29 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="180" y="105" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1587924910456" />
-    <state width="1386" height="143" key="GridCell.Tab.0.bottom" timestamp="1587938768761">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="1386" height="100" key="GridCell.Tab.0.bottom" timestamp="1587941619670">
+      <screen x="0" y="23" width="1440" height="804" />
     </state>
-    <state width="1386" height="143" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1587938768761" />
-    <state width="1386" height="143" key="GridCell.Tab.0.bottom/0.23.1440.804@0.23.1440.804" timestamp="1587938106004" />
+    <state width="1386" height="100" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1587941611109" />
+    <state width="1386" height="100" key="GridCell.Tab.0.bottom/0.23.1440.804@0.23.1440.804" timestamp="1587941619670" />
     <state width="1386" height="318" key="GridCell.Tab.0.bottom/0.23.2560.1344@0.23.2560.1344" timestamp="1586284870553" />
-    <state width="1386" height="143" key="GridCell.Tab.0.center" timestamp="1587938768760">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="1386" height="100" key="GridCell.Tab.0.center" timestamp="1587941619669">
+      <screen x="0" y="23" width="1440" height="804" />
     </state>
-    <state width="1386" height="143" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1587938768760" />
-    <state width="1386" height="143" key="GridCell.Tab.0.center/0.23.1440.804@0.23.1440.804" timestamp="1587938106003" />
+    <state width="1386" height="100" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1587941611109" />
+    <state width="1386" height="100" key="GridCell.Tab.0.center/0.23.1440.804@0.23.1440.804" timestamp="1587941619669" />
     <state width="1386" height="318" key="GridCell.Tab.0.center/0.23.2560.1344@0.23.2560.1344" timestamp="1586284870552" />
-    <state width="1386" height="143" key="GridCell.Tab.0.left" timestamp="1587938768759">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="1386" height="100" key="GridCell.Tab.0.left" timestamp="1587941619668">
+      <screen x="0" y="23" width="1440" height="804" />
     </state>
-    <state width="1386" height="143" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1587938768759" />
-    <state width="1386" height="143" key="GridCell.Tab.0.left/0.23.1440.804@0.23.1440.804" timestamp="1587938106003" />
+    <state width="1386" height="100" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1587941611108" />
+    <state width="1386" height="100" key="GridCell.Tab.0.left/0.23.1440.804@0.23.1440.804" timestamp="1587941619668" />
     <state width="1386" height="318" key="GridCell.Tab.0.left/0.23.2560.1344@0.23.2560.1344" timestamp="1586284870552" />
-    <state width="1386" height="143" key="GridCell.Tab.0.right" timestamp="1587938768760">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="1386" height="100" key="GridCell.Tab.0.right" timestamp="1587941619669">
+      <screen x="0" y="23" width="1440" height="804" />
     </state>
-    <state width="1386" height="143" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1587938768760" />
-    <state width="1386" height="143" key="GridCell.Tab.0.right/0.23.1440.804@0.23.1440.804" timestamp="1587938106004" />
+    <state width="1386" height="100" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1587941611109" />
+    <state width="1386" height="100" key="GridCell.Tab.0.right/0.23.1440.804@0.23.1440.804" timestamp="1587941619669" />
     <state width="1386" height="318" key="GridCell.Tab.0.right/0.23.2560.1344@0.23.2560.1344" timestamp="1586284870553" />
     <state width="1386" height="216" key="GridCell.Tab.1.bottom" timestamp="1587820343966">
       <screen x="0" y="0" width="1440" height="900" />
