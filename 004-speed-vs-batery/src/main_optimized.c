@@ -1,13 +1,4 @@
-#include <stdio.h>
-#include <raylib.h>
-#include <raymath.h>
-#include <string.h>
-#include <pthread.h>
-
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
-#define PARTICLES_COUNT 200000
-#define GRAVITY -0.9f
+#include "config.h"
 
 float velocity_x_z_create() {
     return GetRandomValue(-10, 10) / 100.0f;
@@ -18,19 +9,19 @@ float velocity_y_create() {
 }
 
 int main() {
-    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Test Energy Consumption - SOA");
+    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Test Energy Consumption - OPTIMIZED");
 
     Image checked = GenImageChecked(2, 2, 2, 1, RED, GREEN);
     Texture2D texture = LoadTextureFromImage(checked);
     UnloadImage(checked);
 
-    float particles_x[PARTICLES_COUNT] = {0};
-    float particles_y[PARTICLES_COUNT] = {0};
-    float particles_z[PARTICLES_COUNT] = {0};
+    float *particles_x = (float *) calloc(sizeof(float), PARTICLES_COUNT);
+    float *particles_y = (float *) calloc(sizeof(float), PARTICLES_COUNT);
+    float *particles_z = (float *) calloc(sizeof(float), PARTICLES_COUNT);
 
-    float particles_speed_x[PARTICLES_COUNT] = {0};
-    float particles_speed_y[PARTICLES_COUNT] = {0};
-    float particles_speed_z[PARTICLES_COUNT] = {0};
+    float *particles_speed_x = (float *) calloc(sizeof(float), PARTICLES_COUNT);
+    float *particles_speed_y = (float *) calloc(sizeof(float), PARTICLES_COUNT);
+    float *particles_speed_z = (float *) calloc(sizeof(float), PARTICLES_COUNT);
 
     for(int i = 0; i < PARTICLES_COUNT; i++) {
         particles_speed_x[i] = velocity_x_z_create();
@@ -42,14 +33,14 @@ int main() {
 
     SetCameraMode(camera, CAMERA_ORBITAL);
 
-    SetTargetFPS(60);
+    SetTargetFPS(FRAMES_PER_SECOND);
 
     pthread_t update_x, update_y, update_z;
 
     while(!WindowShouldClose()){
         UpdateCamera(&camera);
-        ClearBackground(RAYWHITE);
-        float scalar_delta = GetFrameTime() * GRAVITY;
+        ClearBackground(DARKBLUE);
+        float scalar_delta = GetFrameTime() * GRAVITY_SCALAR;
 
         // Update particles position
         for(int i = 0; i < PARTICLES_COUNT; i++) {
@@ -78,22 +69,24 @@ int main() {
                 particles_speed_y[i] = velocity_y_create();
             }
         }
-
         BeginDrawing();{
-
-//             unsigned int i = 0;
-//             for(int j = 8000; j < PARTICLES_COUNT; j += 8000) {
-//                 BeginMode3D(camera);
-//                 {
-//                     for(; i < j; i++){
-//                         DrawBillboard(camera, texture, (Vector3){particles_x[i], particles_y[i], particles_z[i]}, 1.0f, WHITE);
-//                     }
-//                 }EndMode3D();
-//             }
+#ifdef DRAW_PARTICLES
+            BeginMode3D(camera);
+            {
+                Vector3 particle = {0};
+                for(int i = 0; i < MAX_PARTICLES_TO_DRAW; i++){
+                    particle.x = particles_x[i];
+                    particle.y = particles_y[i];
+                    particle.z = particles_z[i];
+                    DrawBillboard(camera, texture, particle, 1.0f, WHITE);
+                }
+            }EndMode3D();
+#endif
             BeginMode3D(camera);
                 DrawGrid(10, 10);
             EndMode3D();
 
+            DrawText("OPTIMIZED", 10, 50, 24, RED);
             DrawFPS(10, 10);
         }EndDrawing();
     }
