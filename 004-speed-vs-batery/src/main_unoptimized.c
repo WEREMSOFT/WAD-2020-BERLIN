@@ -9,6 +9,9 @@ Vector3 velocity_create() {
 int main() {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Test Energy Consumption - UNOPTIMIOZED");
 
+    char STRING_NUMBER_OF_PARTICLES[100];
+    snprintf(STRING_NUMBER_OF_PARTICLES, 100, "# of particles: %d", PARTICLES_COUNT);
+
     Image checked = GenImageChecked(2, 2, 2, 1, RED, GREEN);
     Texture2D texture = LoadTextureFromImage(checked);
     UnloadImage(checked);
@@ -56,7 +59,10 @@ int main() {
             EndMode3D();
 
             DrawFPS(10, 10);
+            DrawText(STRING_NUMBER_OF_PARTICLES, 10, 75, 24, BLACK);
+
             DrawText("UNOPTIMIZED", 10, 50, 24, BLACK);
+
         }EndDrawing();
     }
 
