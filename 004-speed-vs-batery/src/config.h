@@ -8,6 +8,10 @@
 #include <string.h>
 #include <pthread.h>
 
+#if defined(PLATFORM_WEB)
+    #include <emscripten/emscripten.h>
+#endif
+
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
 #define PARTICLES_COUNT 200000
@@ -17,4 +21,7 @@
 #define DRAW_PARTICLES
 #define FRAMES_PER_SECOND 2000
 
+char STRING_NUMBER_OF_PARTICLES[100];
+Camera3D camera = {{55, 54, 55}, {0, 0.2, 0}, {0, 1, 0}, 45.0f, CAMERA_PERSPECTIVE};
+Texture2D texture;
 #endif
