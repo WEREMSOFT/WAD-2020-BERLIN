@@ -22,6 +22,7 @@ void UpdateDrawFrame() {
     float scalar_delta = GetFrameTime() * GRAVITY_SCALAR;
 
     // Update particles position
+#ifdef SEPARATED_LOOPS
     for(int i = 0; i < PARTICLES_COUNT; i++) {
         particles_x[i] += particles_speed_x[i];
     }
@@ -29,11 +30,12 @@ void UpdateDrawFrame() {
     for(int i = 0; i < PARTICLES_COUNT; i++) {
         particles_z[i] += particles_speed_z[i];
     }
+
     for(int i = 0; i < PARTICLES_COUNT; i++) {
         particles_speed_y[i] += scalar_delta;
     }
 
-    for(int i = 0; i < PARTICLES_COUNT; i++){
+    for(int i = 0; i < PARTICLES_COUNT; i++) {
         particles_y[i] += particles_speed_y[i];
     }
 
@@ -48,7 +50,26 @@ void UpdateDrawFrame() {
             particles_speed_y[i] = velocity_y_create();
         }
     }
-    BeginDrawing();{
+#else
+    for (int i = 0; i < PARTICLES_COUNT; i++) {
+        particles_x[i] += particles_speed_x[i];
+        particles_z[i] += particles_speed_z[i];
+        particles_speed_y[i] += scalar_delta;
+        particles_y[i] += particles_speed_y[i];
+        if (particles_y[i] <= 0) {
+            particles_y[i] = 0;
+            particles_x[i] = 0;
+            particles_z[i] = 0;
+
+            particles_speed_x[i] = velocity_x_z_create();
+            particles_speed_z[i] = velocity_x_z_create();
+            particles_speed_y[i] = velocity_y_create();
+        }
+    }
+#endif
+
+    BeginDrawing();
+    {
 #ifdef DRAW_PARTICLES
         BeginMode3D(camera);
         {
@@ -68,7 +89,8 @@ void UpdateDrawFrame() {
         DrawText("OPTIMIZED", 10, 50, 24, RED);
         DrawFPS(10, 10);
         DrawText(STRING_NUMBER_OF_PARTICLES, 10, 75, 24, BLACK);
-    }EndDrawing();
+    }
+    EndDrawing();
 }
 
 int main() {
@@ -88,7 +110,7 @@ int main() {
     texture = LoadTextureFromImage(checked);
     UnloadImage(checked);
 
-    for(int i = 0; i < PARTICLES_COUNT; i++) {
+    for (int i = 0; i < PARTICLES_COUNT; i++) {
         particles_speed_x[i] = velocity_x_z_create();
         particles_speed_z[i] = velocity_x_z_create();
         particles_speed_y[i] = velocity_y_create();
@@ -102,8 +124,7 @@ int main() {
     printf("es web\n");
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
 #else
-    while (!WindowShouldClose())
-    {
+    while (!WindowShouldClose()) {
         UpdateDrawFrame();
     }
 #endif

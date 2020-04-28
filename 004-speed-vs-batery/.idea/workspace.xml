@@ -41,7 +41,9 @@
   <component name="ChangeListManager">
     <list default="true" id="7e3664d4-70da-49e6-8dd3-ff53e85cbaa1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main_optimized.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_optimized.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main_unoptimized.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_unoptimized.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -94,18 +96,24 @@
       <recent name="$PROJECT_DIR$/libs/includes" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.speed_vs_batery_optimized">
+  <component name="RunManager" selected="CMake Application.speed_vs_batery_unoptimized">
+    <configuration name="Run All" type="CMakeRunConfiguration" factoryName="Application" singleton="false" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="speed_vs_batery_unoptimized" RUN_TARGET_NAME="speed_vs_batery_unoptimized" EXPLICIT_BUILD_TARGET_NAME="all">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="speed_vs_batery_unoptimized" run_configuration_type="CMakeRunConfiguration" />
+      </method>
+    </configuration>
     <configuration name="speed_vs_batery_optimized" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="speed_vs_batery_unoptimized" TARGET_NAME="speed_vs_batery_optimized" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="speed_vs_batery_unoptimized" RUN_TARGET_NAME="speed_vs_batery_optimized">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="speed_vs_batery_optimized.html" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="speed_vs_batery_unoptimized" TARGET_NAME="speed_vs_batery_optimized.html" CONFIG_NAME="Html" RUN_TARGET_PROJECT_NAME="speed_vs_batery_unoptimized" RUN_TARGET_NAME="speed_vs_batery_optimized.html">
+    <configuration name="speed_vs_batery_optimized.html" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="speed_vs_batery_unoptimized" TARGET_NAME="speed_vs_batery_optimized.html" CONFIG_NAME="Html">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="speed_vs_batery_unoptimized" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="speed_vs_batery_unoptimized" TARGET_NAME="speed_vs_batery_unoptimized" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="speed_vs_batery_unoptimized" RUN_TARGET_NAME="speed_vs_batery_unoptimized">
+    <configuration name="speed_vs_batery_unoptimized" type="CMakeRunConfiguration" factoryName="Application" singleton="false" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="speed_vs_batery_unoptimized" TARGET_NAME="speed_vs_batery_unoptimized" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="speed_vs_batery_unoptimized" RUN_TARGET_NAME="speed_vs_batery_unoptimized">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -119,6 +127,7 @@
       <item itemvalue="CMake Application.speed_vs_batery_optimized" />
       <item itemvalue="CMake Application.speed_vs_batery_optimized.html" />
       <item itemvalue="CMake Application.speed_vs_batery_unoptimized" />
+      <item itemvalue="CMake Application.Run All" />
       <item itemvalue="CMake Application.speed_vs_batery_unoptimized.html" />
     </list>
   </component>
@@ -158,33 +167,41 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="180" y="105" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587924910456">
+    <state x="326" y="102" key="#Run_All" timestamp="1588053318535">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="180" y="105" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1587924910456" />
-    <state width="1386" height="100" key="GridCell.Tab.0.bottom" timestamp="1587941619670">
-      <screen x="0" y="23" width="1440" height="804" />
+    <state x="326" y="102" key="#Run_All/0.0.1440.900@0.0.1440.900" timestamp="1588053318535" />
+    <state x="121" y="105" width="1319" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588053435710">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1386" height="100" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1587941611109" />
-    <state width="1386" height="100" key="GridCell.Tab.0.bottom/0.23.1440.804@0.23.1440.804" timestamp="1587941619670" />
+    <state x="121" y="105" width="1319" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1588053435710" />
+    <state x="454" y="93" key="#com.intellij.ide.macro.MacrosDialog" timestamp="1588005444874">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="454" y="93" key="#com.intellij.ide.macro.MacrosDialog/0.0.1440.900@0.0.1440.900" timestamp="1588005444874" />
+    <state width="1386" height="112" key="GridCell.Tab.0.bottom" timestamp="1588068772964">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1386" height="112" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1588068772964" />
+    <state width="1386" height="112" key="GridCell.Tab.0.bottom/0.23.1440.804@0.23.1440.804" timestamp="1588053388195" />
     <state width="1386" height="318" key="GridCell.Tab.0.bottom/0.23.2560.1344@0.23.2560.1344" timestamp="1586284870553" />
-    <state width="1386" height="100" key="GridCell.Tab.0.center" timestamp="1587941619669">
-      <screen x="0" y="23" width="1440" height="804" />
+    <state width="1386" height="112" key="GridCell.Tab.0.center" timestamp="1588068772964">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1386" height="100" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1587941611109" />
-    <state width="1386" height="100" key="GridCell.Tab.0.center/0.23.1440.804@0.23.1440.804" timestamp="1587941619669" />
+    <state width="1386" height="112" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1588068772964" />
+    <state width="1386" height="112" key="GridCell.Tab.0.center/0.23.1440.804@0.23.1440.804" timestamp="1588053388194" />
     <state width="1386" height="318" key="GridCell.Tab.0.center/0.23.2560.1344@0.23.2560.1344" timestamp="1586284870552" />
-    <state width="1386" height="100" key="GridCell.Tab.0.left" timestamp="1587941619668">
-      <screen x="0" y="23" width="1440" height="804" />
+    <state width="1386" height="112" key="GridCell.Tab.0.left" timestamp="1588068772964">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1386" height="100" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1587941611108" />
-    <state width="1386" height="100" key="GridCell.Tab.0.left/0.23.1440.804@0.23.1440.804" timestamp="1587941619668" />
+    <state width="1386" height="112" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1588068772964" />
+    <state width="1386" height="112" key="GridCell.Tab.0.left/0.23.1440.804@0.23.1440.804" timestamp="1588053388194" />
     <state width="1386" height="318" key="GridCell.Tab.0.left/0.23.2560.1344@0.23.2560.1344" timestamp="1586284870552" />
-    <state width="1386" height="100" key="GridCell.Tab.0.right" timestamp="1587941619669">
-      <screen x="0" y="23" width="1440" height="804" />
+    <state width="1386" height="112" key="GridCell.Tab.0.right" timestamp="1588068772964">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1386" height="100" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1587941611109" />
-    <state width="1386" height="100" key="GridCell.Tab.0.right/0.23.1440.804@0.23.1440.804" timestamp="1587941619669" />
+    <state width="1386" height="112" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1588068772964" />
+    <state width="1386" height="112" key="GridCell.Tab.0.right/0.23.1440.804@0.23.1440.804" timestamp="1588053388195" />
     <state width="1386" height="318" key="GridCell.Tab.0.right/0.23.2560.1344@0.23.2560.1344" timestamp="1586284870553" />
     <state width="1386" height="216" key="GridCell.Tab.1.bottom" timestamp="1587820343966">
       <screen x="0" y="0" width="1440" height="900" />
@@ -227,10 +244,10 @@
     </state>
     <state x="95" y="3" width="1345" height="897" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1587214261206" />
     <state x="695" y="271" key="SettingsEditor/0.0.2560.1440@0.0.2560.1440" timestamp="1586606929008" />
-    <state x="100" y="123" width="1240" height="604" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1587924742490">
+    <state x="100" y="123" width="1240" height="604" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1588051976357">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="100" y="123" width="1240" height="604" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1440.900@0.0.1440.900" timestamp="1587924742490" />
+    <state x="100" y="123" width="1240" height="604" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1440.900@0.0.1440.900" timestamp="1588051976357" />
     <state x="100" y="100" width="2360" height="1240" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1586294766932" />
     <state x="196" y="76" key="git4idea.branch.GitSmartOperationDialog" timestamp="1587819879827">
       <screen x="0" y="0" width="1440" height="900" />

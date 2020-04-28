@@ -7,32 +7,11 @@ Vector3 velocity_create() {
 }
 
 typedef struct GameObject {
-    // This is the esential information we want to work with
     Vector3 position;
     Vector3 velocity;
-
-    // Extra parameters that can have a game object
-    Vector3 collisionBoxSize;
-    Vector3 collisionOffset;
-    Vector3 acceleration;
-    Vector3 forcesSum;
-    Vector3 drag;
-    float restitutionCoeficient;
-
-    float health;
-    float strength;
-    float stamina;
-
-    char name[100];
-
-    ModelAnimation animation;
-    Model model;
-
-    unsigned int state;
-    Texture texture;
-
-    void *children;
-    void *parent;
+#ifdef USE_LARGE_STRUCTURES
+    LARGE_STRUCTURE_TYPE cadorna[LARGE_STRUCTURE_SIZE]
+#endif
 } GameObject;
 
 GameObject *particles;
@@ -43,12 +22,17 @@ void UpdateDrawFrame() {
     UpdateCamera(&camera);
     // Update particles position
     for(unsigned int i = 0; i < PARTICLES_COUNT; i++){
+#ifdef USE_VECTOR_FUNCTIONS
+        particles[i].velocity = Vector3Add(particles[i].velocity, delta);
+        particles[i].position = Vector3Add(particles[i].position, particles[i].velocity);
+#else
         particles[i].velocity.x += delta.x;
         particles[i].velocity.y += delta.y;
         particles[i].velocity.z += delta.z;
         particles[i].position.x += particles[i].velocity.x;
         particles[i].position.y += particles[i].velocity.y;
         particles[i].position.z += particles[i].velocity.z;
+#endif
         if(particles[i].position.y <= 0) {
             particles[i].position = Vector3Zero();
             particles[i].velocity = velocity_create();
@@ -83,6 +67,8 @@ int main() {
     Image checked = GenImageChecked(2, 2, 2, 1, RED, GREEN);
     texture = LoadTextureFromImage(checked);
     UnloadImage(checked);
+
+    // TODO: Create pointers instead of arrays
 
     particles = (GameObject *) calloc(sizeof(GameObject), PARTICLES_COUNT);
 
