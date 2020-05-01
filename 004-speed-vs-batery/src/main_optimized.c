@@ -70,9 +70,9 @@ void UpdateDrawFrame() {
 
     BeginDrawing();
     {
-#ifdef DRAW_PARTICLES
         BeginMode3D(camera);
         {
+        #ifdef DRAW_PARTICLES
             Vector3 particle = {0};
             for(int i = 0; i < MAX_PARTICLES_TO_DRAW; i++){
                 particle.x = particles_x[i];
@@ -80,11 +80,10 @@ void UpdateDrawFrame() {
                 particle.z = particles_z[i];
                 DrawBillboard(camera, texture, particle, 1.0f, WHITE);
             }
+        #endif
+            DrawGrid(10, 10);
         }EndMode3D();
-#endif
-        BeginMode3D(camera);
-        DrawGrid(10, 10);
-        EndMode3D();
+
 
         DrawText("OPTIMIZED", 10, 50, 24, RED);
         DrawFPS(10, 10);
@@ -124,10 +123,23 @@ int main() {
     printf("es web\n");
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
 #else
+#ifdef RUN_ONLY_COUNT_FRAMES
+    int frame_count = COUNT_FRAMES;
+    while (!WindowShouldClose() && frame_count--) {
+#else
     while (!WindowShouldClose()) {
+#endif
         UpdateDrawFrame();
     }
 #endif
+
+    free(particles_x);
+    free(particles_y);
+    free(particles_z);
+
+    free(particles_speed_x);
+    free(particles_speed_y);
+    free(particles_speed_z);
 
     return 0;
 }

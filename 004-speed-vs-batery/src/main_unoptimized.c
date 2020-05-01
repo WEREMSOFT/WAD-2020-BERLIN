@@ -39,18 +39,17 @@ void UpdateDrawFrame() {
         }
     }
 
-    BeginDrawing();{
-#ifdef DRAW_PARTICLES
+    BeginDrawing();
+    {
         BeginMode3D(camera);
         {
-            for(int i = 0; i < MAX_PARTICLES_TO_DRAW; i++){
-                DrawBillboard(camera, texture, particles[i].position, 1.0f, WHITE);
-            }
+            #ifdef DRAW_PARTICLES
+                for(int i = 0; i < MAX_PARTICLES_TO_DRAW; i++){
+                    DrawBillboard(camera, texture, particles[i].position, 1.0f, WHITE);
+                }
+            #endif
+            DrawGrid(10, 10);
         }EndMode3D();
-#endif
-        BeginMode3D(camera);
-        DrawGrid(10, 10);
-        EndMode3D();
 
         DrawFPS(10, 10);
         DrawText(STRING_NUMBER_OF_PARTICLES, 10, 75, 24, BLACK);
@@ -84,11 +83,17 @@ int main() {
     printf("es web\n");
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
 #else
-    while (!WindowShouldClose())
-    {
+#ifdef RUN_ONLY_COUNT_FRAMES
+    int frame_count = COUNT_FRAMES;
+    while (!WindowShouldClose() && frame_count--) {
+#else
+        while (!WindowShouldClose()) {
+#endif
         UpdateDrawFrame();
     }
 #endif
+
+    free(particles);
 
     return 0;
 }
