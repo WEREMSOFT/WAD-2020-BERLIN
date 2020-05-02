@@ -12,12 +12,15 @@ all: print_information $(BLD_D)main_optimized
 %.o: $(SRC_D)%.c
 	$(CC_COMMAND) -o $(OBJ_D)$@ $^ $(LINK_LIBS)
 
-$(BLD_D)main_optimized: $(SRC_D)main_optimized.c
-	 $(CC_COMMAND) -o $@ $^ $(LINK_LIBS)
+%.bin: $(SRC_D)%.c
+	$(CC_COMMAND) -o $(BLD_D)$@ $^ $(LINK_LIBS)
+
+
+main_optimized: main_optimized.o
+	 $(CC_COMMAND) -o $(BLD_D)$@ $(OBJ_D)$^ $(LINK_LIBS) -v
 
 $(BLD_D)main_unoptimized: $(SRC_D)main_unoptimized.c
 	 $(CC_COMMAND) -o $@ $^ $(LINK_LIBS)
-
 
 print_information:
 	@echo "Dettected OS: $(DETTECTED_OS)"
@@ -29,3 +32,6 @@ create_folder_structure:
 	$(shell mkdir libs/include)
 	$(shell mkdir libs/static)
 	
+clean:
+	$(shell rm -r bin/*)
+	$(shell rm -r obj/*)
