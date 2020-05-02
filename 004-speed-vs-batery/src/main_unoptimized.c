@@ -10,7 +10,7 @@ typedef struct GameObject {
     Vector3 position;
     Vector3 velocity;
 #ifdef USE_LARGE_STRUCTURES
-    LARGE_STRUCTURE_TYPE cadorna[LARGE_STRUCTURE_SIZE]
+    LARGE_STRUCTURE_TYPE cadorna[LARGE_STRUCTURE_SIZE];
 #endif
 } GameObject;
 
