@@ -3,18 +3,23 @@ include ./makefiles/dettect_os.mk
 include ./makefiles/configure_static_libraries_by_os.mk
 
 CC_COMMAND := $(CC) $(CFLAGS) $(INCLUDE_D) $(STATIC_LIBS_D)
+EMSC_CC_COMMAND := $(EMSC_CC) $(EMSC_CFLAGS) $(INCLUDE_D) $(STATIC_LIBS_D)
 
-.PHONY: print_information create_folder_structure
+.PHONY: print_information create_folder_structure run_html
 
-all: print_information $(BLD_D)main_optimized
-	@echo "Finished"
+all: print_information main_optimized.bin main_unoptimized.bin main_optimized.html main_unoptimized.html
 
 %.o: $(SRC_D)%.c
 	$(CC_COMMAND) -o $(OBJ_D)$@ $^ $(LINK_LIBS)
 
 %.bin: $(SRC_D)%.c
+	@echo "### Building $(@) START ###"
 	$(CC_COMMAND) -o $(BLD_D)$@ $^ $(LINK_LIBS)
+	@echo "### End ###"
+	@echo ""
 
+%.html: $(SRC_D)%.c 
+	$(EMSC_CC_COMMAND) -o $(HTML_D)$@ $^ $(EMSC_STATIC_LIBS_D)
 
 main_optimized: main_optimized.o
 	 $(CC_COMMAND) -o $(BLD_D)$@ $(OBJ_D)$^ $(LINK_LIBS) -v
@@ -31,7 +36,12 @@ create_folder_structure:
 	$(shell mkdir src)
 	$(shell mkdir libs/include)
 	$(shell mkdir libs/static)
+	$(shell mkdir html)
 	
 clean:
 	$(shell rm -r bin/*)
 	$(shell rm -r obj/*)
+	$(shell rm -r html/*)
+
+run_html:
+	$(shell emrun $(HTML_D)main_unoptimized.html)
