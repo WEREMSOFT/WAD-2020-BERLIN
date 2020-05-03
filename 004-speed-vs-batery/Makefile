@@ -2,10 +2,7 @@ include ./makefiles/define_useful_vars.mk
 include ./makefiles/dettect_os.mk
 include ./makefiles/configure_static_libraries_by_os.mk
 
-CC_COMMAND := $(CC) $(CFLAGS) $(INCLUDE_D) $(STATIC_LIBS_D)
-EMSC_CC_COMMAND := $(EMSC_CC) $(EMSC_CFLAGS) $(INCLUDE_D) $(STATIC_LIBS_D)
-
-.PHONY: print_information create_folder_structure run_html
+.PHONY: print_information create_folder_structure run_html run_performance_test
 
 all: print_information main_optimized.bin main_unoptimized.bin main_optimized.html main_unoptimized.html
 
@@ -30,7 +27,7 @@ $(BLD_D)main_unoptimized: $(SRC_D)main_unoptimized.c
 print_information:
 	@echo "Dettected OS: $(DETTECTED_OS)"
 
-create_folder_structure:
+create_folders:
 	$(shell mkdir bin)	
 	$(shell mkdir obj)
 	$(shell mkdir src)
@@ -43,5 +40,14 @@ clean:
 	$(shell rm -r obj/*)
 	$(shell rm -r html/*)
 
-run_html:
+run_html: main_unoptimized.html main_optimized.html
 	$(shell emrun $(HTML_D)main_unoptimized.html)
+	$(shell emrun $(HTML_D)main_optimized.html)
+
+run_performance_test: main_unoptimized.bin main_optimized.bin
+	$(shell perf stat -e task-clock,cycles,instructions,cache-references,cache-misses $(BLD_D)main_optimized.bin)
+	$(shell perf stat -e task-clock,cycles,instructions,cache-references,cache-misses $(BLD_D)main_unoptimized.bin)
+	
+run_both_versions: main_unoptimized.bin main_optimized.bin
+	$(shell $(BLD_D)main_optimized.bin & $(BLD_D)main_unoptimized.bin &)
+	

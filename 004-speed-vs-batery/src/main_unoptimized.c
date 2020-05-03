@@ -9,9 +9,7 @@ Vector3 velocity_create() {
 typedef struct GameObject {
     Vector3 position;
     Vector3 velocity;
-#ifdef USE_LARGE_STRUCTURES
-    LARGE_STRUCTURE_TYPE cadorna[LARGE_STRUCTURE_SIZE];
-#endif
+	void *next;
 } GameObject;
 
 GameObject *particles;
@@ -21,22 +19,24 @@ void UpdateDrawFrame() {
     Vector3 delta = Vector3Scale(GRAVITY, GetFrameTime());
     UpdateCamera(&camera);
     // Update particles position
-    for(unsigned int i = 0; i < PARTICLES_COUNT; i++){
+    GameObject* particle = particles;
+    while(particle){
 #ifdef USE_VECTOR_FUNCTIONS
-        particles[i].velocity = Vector3Add(particles[i].velocity, delta);
-        particles[i].position = Vector3Add(particles[i].position, particles[i].velocity);
+        particle->velocity = Vector3Add(particles->velocity, delta);
+        particle->position = Vector3Add(particles->position, particles->velocity);
 #else
-        particles[i].velocity.x += delta.x;
-        particles[i].velocity.y += delta.y;
-        particles[i].velocity.z += delta.z;
-        particles[i].position.x += particles[i].velocity.x;
-        particles[i].position.y += particles[i].velocity.y;
-        particles[i].position.z += particles[i].velocity.z;
+        particles->velocity.x += delta.x;
+        particles->velocity.y += delta.y;
+        particles->velocity.z += delta.z;
+        particles->position.x += particles->velocity.x;
+        particles->position.y += particles->velocity.y;
+        particles->position.z += particles->velocity.z;
 #endif
-        if(particles[i].position.y <= 0) {
-            particles[i].position = Vector3Zero();
-            particles[i].velocity = velocity_create();
+        if(particles->position.y <= 0) {
+            particles->position = Vector3Zero();
+            particles->velocity = velocity_create();
         }
+        particle = particle->next;
     }
 
     BeginDrawing();
@@ -67,12 +67,28 @@ int main() {
     texture = LoadTextureFromImage(checked);
     UnloadImage(checked);
 
-    // TODO: Create pointers instead of arrays
+    {
+        GameObject* last_particle;
+        // TODO: Create pointers instead of arrays
+        for(int i = 0; i < PARTICLES_COUNT; i++){
+            GameObject* particle = (GameObject *) calloc(sizeof(GameObject), 1);
+            particle->next = NULL;
+            if(!particles) {
+                particles = particle;
+                last_particle = particle;
+            } else {
+                last_particle->next = particle;
+                last_particle = particle;
+            }
+        }
+    }
 
-    particles = (GameObject *) calloc(sizeof(GameObject), PARTICLES_COUNT);
-
-    for(unsigned long int i = 0; i < PARTICLES_COUNT; i++){
-        particles[i].velocity = velocity_create();
+    {
+        GameObject* particle = particles;
+        while(particle){
+            particle->velocity = velocity_create();
+            particle = (GameObject *)particle->next;
+        }
     }
 
     SetCameraMode(camera, CAMERA_ORBITAL);
@@ -80,7 +96,6 @@ int main() {
     SetTargetFPS(FRAMES_PER_SECOND);
 
 #if defined(PLATFORM_WEB)
-    printf("es web\n");
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
 #else
 #ifdef RUN_ONLY_COUNT_FRAMES
@@ -93,7 +108,13 @@ int main() {
     }
 #endif
 
-    free(particles);
+    GameObject* particle = particles;
+
+    while(particle){
+        particles = particle->next;
+        free(particle);
+        particle = particles;
+    }
 
     return 0;
 }

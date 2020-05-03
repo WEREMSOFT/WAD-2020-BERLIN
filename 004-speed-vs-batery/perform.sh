@@ -1,1 +1,0 @@
-perf stat -e task-clock,cycles,instructions,cache-references,cache-misses $1
