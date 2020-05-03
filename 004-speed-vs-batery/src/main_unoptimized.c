@@ -22,8 +22,8 @@ void UpdateDrawFrame() {
     GameObject* particle = particles;
     while(particle){
 #ifdef USE_VECTOR_FUNCTIONS
-        particle->velocity = Vector3Add(particles->velocity, delta);
-        particle->position = Vector3Add(particles->position, particles->velocity);
+        particle->velocity = Vector3Add(particle->velocity, delta);
+        particle->position = Vector3Add(particle->position, particle->velocity);
 #else
         particles->velocity.x += delta.x;
         particles->velocity.y += delta.y;
@@ -32,9 +32,9 @@ void UpdateDrawFrame() {
         particles->position.y += particles->velocity.y;
         particles->position.z += particles->velocity.z;
 #endif
-        if(particles->position.y <= 0) {
-            particles->position = Vector3Zero();
-            particles->velocity = velocity_create();
+        if(particle->position.y <= 0) {
+            particle->position = Vector3Zero();
+            particle->velocity = velocity_create();
         }
         particle = particle->next;
     }
@@ -44,8 +44,13 @@ void UpdateDrawFrame() {
         BeginMode3D(camera);
         {
             #ifdef DRAW_PARTICLES
-                for(int i = 0; i < MAX_PARTICLES_TO_DRAW; i++){
-                    DrawBillboard(camera, texture, particles[i].position, 1.0f, WHITE);
+                {
+                    int i = MAX_PARTICLES_TO_DRAW;
+                    GameObject *particle = particles;
+                    while(i--){
+                        DrawBillboard(camera, texture, particle->position, 1.0f, WHITE);
+                        particle = particle->next;
+                    }
                 }
             #endif
             DrawGrid(10, 10);
