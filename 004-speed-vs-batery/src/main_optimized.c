@@ -1,4 +1,5 @@
 #include "config.h"
+#include "benchmark_utils.h"
 
 float velocity_x_z_create() {
     return GetRandomValue(-10, 10) / 100.0f;
@@ -88,6 +89,7 @@ void UpdateDrawFrame() {
         DrawText("OPTIMIZED", 10, 50, 24, RED);
         DrawFPS(10, 10);
         DrawText(STRING_NUMBER_OF_PARTICLES, 10, 75, 24, BLACK);
+        draw_fps_graph();
     }
     EndDrawing();
 }

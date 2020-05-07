@@ -21,15 +21,11 @@ all: print_information main_optimized.bin main_unoptimized.bin main_optimized.ht
 main_optimized: main_optimized.o
 	 $(CC_COMMAND) -o $(BLD_D)$@ $(OBJ_D)$^ $(LINK_LIBS) -v
 
-$(BLD_D)main_unoptimized: $(SRC_D)main_unoptimized.c
-	 $(CC_COMMAND) -o $@ $^ $(LINK_LIBS)
-
 print_information:
 	@echo "Dettected OS: $(DETTECTED_OS)"
 
 create_folders:
 	$(shell mkdir bin)	
-	$(shell mkdir obj)
 	$(shell mkdir src)
 	$(shell mkdir libs/include)
 	$(shell mkdir libs/static)
@@ -37,7 +33,6 @@ create_folders:
 	
 clean:
 	$(shell rm -r bin/*)
-	$(shell rm -r obj/*)
 	$(shell rm -r html/*)
 
 run_html: main_unoptimized.html main_optimized.html
@@ -47,7 +42,16 @@ run_html: main_unoptimized.html main_optimized.html
 run_performance_test: main_unoptimized.bin main_optimized.bin
 	$(shell perf stat -e task-clock,cycles,instructions,cache-references,cache-misses $(BLD_D)main_optimized.bin)
 	$(shell perf stat -e task-clock,cycles,instructions,cache-references,cache-misses $(BLD_D)main_unoptimized.bin)
+
+run_perf_log: main_unoptimized.bin main_optimized.bin
+	$(shell perf record -e L1-dcache-load-misses -c 10000 -ag -- sleep 5)
 	
 run_both_versions: main_unoptimized.bin main_optimized.bin
-	$(shell $(BLD_D)main_optimized.bin & $(BLD_D)main_unoptimized.bin &)
+	$(BLD_D)main_optimized.bin &
+	$(BLD_D)main_unoptimized.bin &
 	
+run_unoptimized: $(BLD_D)main_unoptimized.bin
+	$(shell $(BLD_D)main_unoptimized.bin)
+
+run_optimized: main_optimized.bin
+	$(shell $(BLD_D)main_optimized.bin)

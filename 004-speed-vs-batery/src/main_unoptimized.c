@@ -1,4 +1,5 @@
 #include "config.h"
+#include "benchmark_utils.h"
 
 #define GRAVITY (Vector3){0, GRAVITY_SCALAR, 0}
 
@@ -55,6 +56,8 @@ void UpdateDrawFrame() {
         DrawText(STRING_NUMBER_OF_PARTICLES, 10, 75, 24, BLACK);
 
         DrawText("UNOPTIMIZED", 10, 50, 24, BLACK);
+
+        draw_fps_graph();
 
     }EndDrawing();
 }
