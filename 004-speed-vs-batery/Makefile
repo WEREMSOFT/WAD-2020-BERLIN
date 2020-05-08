@@ -4,22 +4,28 @@ include ./makefiles/configure_static_libraries_by_os.mk
 
 .PHONY: print_information create_folder_structure run_html run_performance_test
 
-all: print_information main_optimized.bin main_unoptimized.bin main_optimized.html main_unoptimized.html
+all: print_information $(BLD_D)main_optimized.bin $(BLD_D)main_unoptimized.bin $(HTML_D)main_optimized.html $(HTML_D)main_unoptimized.html
 
 %.o: $(SRC_D)%.c
 	$(CC_COMMAND) -o $(OBJ_D)$@ $^ $(LINK_LIBS)
 
-%.bin: $(SRC_D)%.c
+$(BLD_D)main_unoptimized.bin: $(SRC_D)main_unoptimized.c
 	@echo "### Building $(@) START ###"
-	$(CC_COMMAND) -o $(BLD_D)$@ $^ $(LINK_LIBS)
+	$(CC_COMMAND) -o $@ $^ $(LINK_LIBS)
 	@echo "### End ###"
 	@echo ""
 
-%.html: $(SRC_D)%.c 
-	$(EMSC_CC_COMMAND) -o $(HTML_D)$@ $^ $(EMSC_STATIC_LIBS_D)
+$(BLD_D)main_optimized.bin: $(SRC_D)main_optimized.c
+	@echo "### Building $(@) START ###"
+	$(CC_COMMAND) -o $@ $^ $(LINK_LIBS)
+	@echo "### End ###"
+	@echo ""
 
-main_optimized: main_optimized.o
-	 $(CC_COMMAND) -o $(BLD_D)$@ $(OBJ_D)$^ $(LINK_LIBS) -v
+$(HTML_D)main_optimized.html: $(SRC_D)main_optimized.c
+	$(EMSC_CC_COMMAND) -o $@ $^ $(EMSC_STATIC_LIBS_D)
+
+$(HTML_D)main_unoptimized.html: $(SRC_D)main_unoptimized.c
+	$(EMSC_CC_COMMAND) -o $@ $^ $(EMSC_STATIC_LIBS_D)
 
 print_information:
 	@echo "Dettected OS: $(DETTECTED_OS)"
@@ -46,12 +52,12 @@ run_performance_test: main_unoptimized.bin main_optimized.bin
 run_perf_log: main_unoptimized.bin main_optimized.bin
 	$(shell perf record -e L1-dcache-load-misses -c 10000 -ag -- sleep 5)
 	
-run_both_versions: main_unoptimized.bin main_optimized.bin
+run_both_versions: $(BLD_D)main_unoptimized.bin $(BLD_D)main_optimized.bin
 	$(BLD_D)main_optimized.bin &
 	$(BLD_D)main_unoptimized.bin &
 	
 run_unoptimized: $(BLD_D)main_unoptimized.bin
 	$(shell $(BLD_D)main_unoptimized.bin)
 
-run_optimized: main_optimized.bin
+run_optimized: $(BLD_D)main_optimized.bin
 	$(shell $(BLD_D)main_optimized.bin)

@@ -4,38 +4,44 @@
 #define GRAVITY (Vector3){0, GRAVITY_SCALAR, 0}
 
 Vector3 velocity_create() {
-    return (Vector3){GetRandomValue(-10, 10) / 100.0f, GetRandomValue(-100, 100) / 100.0f, GetRandomValue(-10, 10) / 100.0f};
+    return (Vector3){GetRandomValue(-5, 5), GetRandomValue(1, 25), GetRandomValue(-5, 5)};
 }
 
 typedef struct GameObject {
+    int index;
     Vector3 position;
     Vector3 velocity;
 	void *next;
+    // void* cadorna[1000];
 } GameObject;
 
 GameObject *particles;
 
 void UpdateDrawFrame() {
     ClearBackground(RED);
-    Vector3 delta = Vector3Scale(GRAVITY, GetFrameTime());
+    float delta_scalar = GetFrameTime();
+#ifdef USE_VECTOR_FUNCTIONS
+    Vector3 delta = Vector3Scale(GRAVITY, delta_scalar);
+#endif
+#ifdef UPDATE_CAMERA
     UpdateCamera(&camera);
+#endif
     // Update particles position
     GameObject* particle = particles;
     while(particle){
 #ifdef USE_VECTOR_FUNCTIONS
-        particle->velocity = Vector3Add(particles->velocity, delta);
-        particle->position = Vector3Add(particles->position, particles->velocity);
+        particle->velocity = Vector3Add(particle->velocity, delta);
+        particle->position = Vector3Add(particle->position, Vector3Scale(particle->velocity, delta_scalar));
 #else
-        particles->velocity.x += delta.x;
-        particles->velocity.y += delta.y;
-        particles->velocity.z += delta.z;
-        particles->position.x += particles->velocity.x;
-        particles->position.y += particles->velocity.y;
-        particles->position.z += particles->velocity.z;
+        float G = GRAVITY_SCALAR * delta_scalar;
+        particle->velocity.y += GRAVITY_SCALAR * delta_scalar;
+        particle->position.x += particle->velocity.x * delta_scalar;
+        particle->position.y += particle->velocity.y * delta_scalar;
+        particle->position.z += particle->velocity.z * delta_scalar;
 #endif
-        if(particles->position.y <= 0) {
-            particles->position = Vector3Zero();
-            particles->velocity = velocity_create();
+        if(particle->position.y <= 0) {
+            particle->position = Vector3Zero();
+            particle->velocity = velocity_create();
         }
         particle = particle->next;
     }
@@ -45,8 +51,11 @@ void UpdateDrawFrame() {
         BeginMode3D(camera);
         {
             #ifdef DRAW_PARTICLES
-                for(int i = 0; i < MAX_PARTICLES_TO_DRAW; i++){
-                    DrawBillboard(camera, texture, particles[i].position, 1.0f, WHITE);
+                particle = particles;
+                int max_particles = MAX_PARTICLES_TO_DRAW;
+                while(max_particles--){
+                    DrawBillboard(camera, texture, particle->position, 1.0f, WHITE);
+                    particle = particle->next;
                 }
             #endif
             DrawGrid(10, 10);
@@ -75,8 +84,9 @@ int main() {
         // TODO: Create pointers instead of arrays
         for(int i = 0; i < PARTICLES_COUNT; i++){
             GameObject* particle = (GameObject *) calloc(sizeof(GameObject), 1);
+            particle->index = i;
             particle->next = NULL;
-            if(!particles) {
+            if(i == 0) {
                 particles = particle;
                 last_particle = particle;
             } else {
@@ -96,7 +106,7 @@ int main() {
 
     SetCameraMode(camera, CAMERA_ORBITAL);
 
-    SetTargetFPS(FRAMES_PER_SECOND);
+    SetTargetFPS(TARGET_FRAMES_PER_SECOND);
 
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);

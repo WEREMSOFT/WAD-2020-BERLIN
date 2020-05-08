@@ -10,7 +10,7 @@ LIBS_D := libs/
 HTML_D := html/
 INCLUDE_D := -I$(LIBS_D)include/
 STATIC_LIBS_D := -L$(LIBS_D)static/
-CFLAGS := -O0 -g -Wall -std=c99
+CFLAGS := -Ofast -Wpedantic -Wall -std=c99
 
 # Vars for emscripten build
 RAYLIB_PATH := /Users/pabloweremczuk/Documents/Proyectos/c/raylib

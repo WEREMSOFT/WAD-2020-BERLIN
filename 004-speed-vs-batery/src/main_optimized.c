@@ -2,11 +2,11 @@
 #include "benchmark_utils.h"
 
 float velocity_x_z_create() {
-    return GetRandomValue(-10, 10) / 100.0f;
+    return GetRandomValue(-5, 5);
 }
 
 float velocity_y_create() {
-    return GetRandomValue(-100, 100) / 100.0f;
+    return GetRandomValue(1, 25);
 }
 
 float *particles_x;
@@ -18,9 +18,11 @@ float *particles_speed_y;
 float *particles_speed_z;
 
 void UpdateDrawFrame() {
+#ifdef UPDATE_CAMERA
     UpdateCamera(&camera);
+#endif
     ClearBackground(DARKBLUE);
-    float scalar_delta = GetFrameTime() * GRAVITY_SCALAR;
+    float delta_scalar = GetFrameTime();
 
     // Update particles position
 #ifdef SEPARATED_LOOPS
@@ -53,10 +55,10 @@ void UpdateDrawFrame() {
     }
 #else
     for (int i = 0; i < PARTICLES_COUNT; i++) {
-        particles_x[i] += particles_speed_x[i];
-        particles_z[i] += particles_speed_z[i];
-        particles_speed_y[i] += scalar_delta;
-        particles_y[i] += particles_speed_y[i];
+        particles_x[i] += particles_speed_x[i] * delta_scalar;
+        particles_z[i] += particles_speed_z[i] * delta_scalar;
+        particles_speed_y[i] += GRAVITY_SCALAR * delta_scalar;
+        particles_y[i] += particles_speed_y[i] * delta_scalar;
         if (particles_y[i] <= 0) {
             particles_y[i] = 0;
             particles_x[i] = 0;
@@ -119,7 +121,7 @@ int main() {
 
     SetCameraMode(camera, CAMERA_ORBITAL);
 
-    SetTargetFPS(FRAMES_PER_SECOND);
+    SetTargetFPS(TARGET_FRAMES_PER_SECOND);
 
 #if defined(PLATFORM_WEB)
     printf("es web\n");
