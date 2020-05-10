@@ -4,7 +4,7 @@ include ./makefiles/configure_static_libraries_by_os.mk
 
 DEBUGGER := kdbg
 
-DEBUGGER? := cgdb
+DEBUGGER := cgdb
 
 .PHONY: debug_optimized debug_unoptimized print_information create_folder_structure run_html_u run_html_o run_performance_test
 
