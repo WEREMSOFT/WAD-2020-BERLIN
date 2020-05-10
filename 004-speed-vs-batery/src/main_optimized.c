@@ -1,122 +1,106 @@
 #include "config.h"
 #include "benchmark_utils.h"
 
-float velocity_x_z_create() {
-    return GetRandomValue(-5, 5);
+#define GRAVITY (Vector3){0, GRAVITY_SCALAR, 0}
+
+Vector3 velocity_create() {
+    return (Vector3){GetRandomValue(-5, 5), GetRandomValue(1, 25), GetRandomValue(-5, 5)};
 }
 
-float velocity_y_create() {
-    return GetRandomValue(1, 25);
-}
+typedef struct GameObject {
+    int index;
+    Vector3 position;
+    Vector3 velocity;
+	void *next;
+} GameObject;
 
-float *particles_x;
-float *particles_y;
-float *particles_z;
-
-float *particles_speed_x;
-float *particles_speed_y;
-float *particles_speed_z;
+GameObject *particles;
 
 void UpdateDrawFrame() {
+    ClearBackground(DARKBLUE);
+    float delta_scalar = GetFrameTime();
+#ifdef USE_VECTOR_FUNCTIONS
+    Vector3 delta = Vector3Scale(GRAVITY, delta_scalar);
+#endif
 #ifdef UPDATE_CAMERA
     UpdateCamera(&camera);
 #endif
-    ClearBackground(DARKBLUE);
-    float delta_scalar = GetFrameTime();
-
     // Update particles position
-#ifdef SEPARATED_LOOPS
-    for(int i = 0; i < PARTICLES_COUNT; i++) {
-        particles_x[i] += particles_speed_x[i];
-    }
-
-    for(int i = 0; i < PARTICLES_COUNT; i++) {
-        particles_z[i] += particles_speed_z[i];
-    }
-
-    for(int i = 0; i < PARTICLES_COUNT; i++) {
-        particles_speed_y[i] += scalar_delta;
-    }
-
-    for(int i = 0; i < PARTICLES_COUNT; i++) {
-        particles_y[i] += particles_speed_y[i];
-    }
-
-    for(int i = 0; i < PARTICLES_COUNT; i++) {
-        if (particles_y[i] <= 0) {
-            particles_y[i] = 0;
-            particles_x[i] = 0;
-            particles_z[i] = 0;
-
-            particles_speed_x[i] = velocity_x_z_create();
-            particles_speed_z[i] = velocity_x_z_create();
-            particles_speed_y[i] = velocity_y_create();
-        }
-    }
+    GameObject* particle = particles;
+    while(particle){
+#ifdef USE_VECTOR_FUNCTIONS
+        particle->velocity = Vector3Add(particle->velocity, delta);
+        particle->position = Vector3Add(particle->position, Vector3Scale(particle->velocity, delta_scalar));
 #else
-    for (int i = 0; i < PARTICLES_COUNT; i++) {
-        particles_x[i] += particles_speed_x[i] * delta_scalar;
-        particles_z[i] += particles_speed_z[i] * delta_scalar;
-        particles_speed_y[i] += GRAVITY_SCALAR * delta_scalar;
-        particles_y[i] += particles_speed_y[i] * delta_scalar;
-        if (particles_y[i] <= 0) {
-            particles_y[i] = 0;
-            particles_x[i] = 0;
-            particles_z[i] = 0;
-
-            particles_speed_x[i] = velocity_x_z_create();
-            particles_speed_z[i] = velocity_x_z_create();
-            particles_speed_y[i] = velocity_y_create();
-        }
-    }
+        float G = GRAVITY_SCALAR * delta_scalar;
+        particle->velocity.y += GRAVITY_SCALAR * delta_scalar;
+        particle->position.x += particle->velocity.x * delta_scalar;
+        particle->position.y += particle->velocity.y * delta_scalar;
+        particle->position.z += particle->velocity.z * delta_scalar;
 #endif
+        if(particle->position.y <= 0) {
+            particle->position = Vector3Zero();
+            particle->velocity = velocity_create();
+        }
+        particle = particle->next;
+    }
 
     BeginDrawing();
     {
         BeginMode3D(camera);
         {
-        #ifdef DRAW_PARTICLES
-            Vector3 particle = {0};
-            for(int i = 0; i < MAX_PARTICLES_TO_DRAW; i++){
-                particle.x = particles_x[i];
-                particle.y = particles_y[i];
-                particle.z = particles_z[i];
-                DrawBillboard(camera, texture, particle, 1.0f, WHITE);
-            }
-        #endif
+            #ifdef DRAW_PARTICLES
+                particle = particles;
+                int max_particles = MAX_PARTICLES_TO_DRAW;
+                while(max_particles--){
+                    DrawBillboard(camera, texture, particle->position, 1.0f, WHITE);
+                    particle = particle->next;
+                }
+            #endif
             DrawGrid(10, 10);
         }EndMode3D();
 
-
-        DrawText("OPTIMIZED", 10, 50, 24, RED);
         DrawFPS(10, 10);
         DrawText(STRING_NUMBER_OF_PARTICLES, 10, 75, 24, BLACK);
+
+        DrawText("OPTIMIZED", 10, 50, 24, BLACK);
+
         draw_fps_graph();
-    }
-    EndDrawing();
+
+    }EndDrawing();
 }
 
 int main() {
-    particles_x = (float *) calloc(sizeof(float), PARTICLES_COUNT);
-    particles_y = (float *) calloc(sizeof(float), PARTICLES_COUNT);
-    particles_z = (float *) calloc(sizeof(float), PARTICLES_COUNT);
-
-    particles_speed_x = (float *) calloc(sizeof(float), PARTICLES_COUNT);
-    particles_speed_y = (float *) calloc(sizeof(float), PARTICLES_COUNT);
-    particles_speed_z = (float *) calloc(sizeof(float), PARTICLES_COUNT);
-
-    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Test Energy Consumption - OPTIMIZED");
-
+    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Test Energy Consumption - OPTIMIOZED");
     snprintf(STRING_NUMBER_OF_PARTICLES, 100, "# of particles: %d", PARTICLES_COUNT);
 
     Image checked = GenImageChecked(2, 2, 2, 1, RED, GREEN);
     texture = LoadTextureFromImage(checked);
     UnloadImage(checked);
 
-    for (int i = 0; i < PARTICLES_COUNT; i++) {
-        particles_speed_x[i] = velocity_x_z_create();
-        particles_speed_z[i] = velocity_x_z_create();
-        particles_speed_y[i] = velocity_y_create();
+    {
+        GameObject* last_particle;
+        // TODO: Create pointers instead of arrays
+        for(int i = 0; i < PARTICLES_COUNT; i++){
+            GameObject* particle = (GameObject *) calloc(sizeof(GameObject), 1);
+            particle->index = i;
+            particle->next = NULL;
+            if(i == 0) {
+                particles = particle;
+                last_particle = particle;
+            } else {
+                last_particle->next = particle;
+                last_particle = particle;
+            }
+        }
+    }
+
+    {
+        GameObject* particle = particles;
+        while(particle){
+            particle->velocity = velocity_create();
+            particle = (GameObject *)particle->next;
+        }
     }
 
     SetCameraMode(camera, CAMERA_ORBITAL);
@@ -124,26 +108,25 @@ int main() {
     SetTargetFPS(TARGET_FRAMES_PER_SECOND);
 
 #if defined(PLATFORM_WEB)
-    printf("es web\n");
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
 #else
 #ifdef RUN_ONLY_COUNT_FRAMES
     int frame_count = COUNT_FRAMES;
     while (!WindowShouldClose() && frame_count--) {
 #else
-    while (!WindowShouldClose()) {
+        while (!WindowShouldClose()) {
 #endif
         UpdateDrawFrame();
     }
 #endif
 
-    free(particles_x);
-    free(particles_y);
-    free(particles_z);
+    GameObject* particle = particles;
 
-    free(particles_speed_x);
-    free(particles_speed_y);
-    free(particles_speed_z);
+    while(particle){
+        particles = particle->next;
+        free(particle);
+        particle = particles;
+    }
 
     return 0;
 }

@@ -12,7 +12,7 @@ typedef struct GameObject {
     Vector3 position;
     Vector3 velocity;
 	void *next;
-    // void* cadorna[1000];
+    void* cadorna[10];
 } GameObject;
 
 GameObject *particles;
