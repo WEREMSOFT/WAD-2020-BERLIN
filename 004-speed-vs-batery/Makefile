@@ -2,7 +2,9 @@ include ./makefiles/define_useful_vars.mk
 include ./makefiles/dettect_os.mk
 include ./makefiles/configure_static_libraries_by_os.mk
 
-DEBUGGER := cgdb
+DEBUGGER := kdbg
+
+DEBUGGER? := cgdb
 
 .PHONY: debug_optimized debug_unoptimized print_information create_folder_structure run_html_u run_html_o run_performance_test
 
@@ -46,5 +48,5 @@ run_both_versions: $(BLD_D)main_unoptimized.bin $(BLD_D)main_optimized.bin
 run_%: $(BLD_D)%.bin
 	$^
 
-debug_%.bin: $(BLD_D)%.bin
-	$(debugger) $^
+debug_%: $(BLD_D)%.bin
+	$(DEBUGGER) $^
