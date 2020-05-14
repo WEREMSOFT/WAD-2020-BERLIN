@@ -11,6 +11,7 @@ HTML_D := html/
 INCLUDE_D := -I$(LIBS_D)include/
 STATIC_LIBS_D := -L$(LIBS_D)static/
 CFLAGS := -O0 -Wpedantic -g -Wall -std=c99
+DEBUGGER := kdbg # Other options: cgdb gdb
 
 # Vars for emscripten build
 RAYLIB_PATH := /Users/pabloweremczuk/Documents/Proyectos/c/raylib

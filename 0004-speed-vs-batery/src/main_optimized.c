@@ -8,10 +8,8 @@ Vector3 velocity_create() {
 }
 
 typedef struct GameObject {
-    int index;
     Vector3 position;
     Vector3 velocity;
-	void *next;
 } GameObject;
 
 GameObject *particles;
@@ -26,23 +24,20 @@ void UpdateDrawFrame() {
     UpdateCamera(&camera);
 #endif
     // Update particles position
-    GameObject* particle = particles;
-    while(particle){
+    for(int i = 0; i < PARTICLES_COUNT; i++){
 #ifdef USE_VECTOR_FUNCTIONS
-        particle->velocity = Vector3Add(particle->velocity, delta);
-        particle->position = Vector3Add(particle->position, Vector3Scale(particle->velocity, delta_scalar));
+        particles[i].velocity = Vector3Add(particle[i].velocity, delta);
+        particles[i].position = Vector3Add(particle[i].position, Vector3Scale(particle[i].velocity, delta_scalar));
 #else
-        float G = GRAVITY_SCALAR * delta_scalar;
-        particle->velocity.y += GRAVITY_SCALAR * delta_scalar;
-        particle->position.x += particle->velocity.x * delta_scalar;
-        particle->position.y += particle->velocity.y * delta_scalar;
-        particle->position.z += particle->velocity.z * delta_scalar;
+        particles[i].velocity.y += GRAVITY_SCALAR * delta_scalar;
+        particles[i].position.x += particles[i].velocity.x * delta_scalar;
+        particles[i].position.y += particles[i].velocity.y * delta_scalar;
+        particles[i].position.z += particles[i].velocity.z * delta_scalar;
 #endif
-        if(particle->position.y <= 0) {
-            particle->position = Vector3Zero();
-            particle->velocity = velocity_create();
+        if(particles[i].position.y <= 0) {
+            particles[i].position = Vector3Zero();
+            particles[i].velocity = velocity_create();
         }
-        particle = particle->next;
     }
 
     BeginDrawing();
@@ -50,11 +45,9 @@ void UpdateDrawFrame() {
         BeginMode3D(camera);
         {
             #ifdef DRAW_PARTICLES
-                particle = particles;
                 int max_particles = MAX_PARTICLES_TO_DRAW;
                 while(max_particles--){
-                    DrawBillboard(camera, texture, particle->position, 1.0f, WHITE);
-                    particle = particle->next;
+                    DrawBillboard(camera, texture, particles[max_particles].position, 1.0f, WHITE);
                 }
             #endif
             DrawGrid(10, 10);
@@ -78,31 +71,12 @@ int main() {
     texture = LoadTextureFromImage(checked);
     UnloadImage(checked);
 
-    {
-        GameObject* last_particle;
-        // TODO: Create pointers instead of arrays
-        for(int i = 0; i < PARTICLES_COUNT; i++){
-            GameObject* particle = (GameObject *) calloc(sizeof(GameObject), 1);
-            particle->index = i;
-            particle->next = NULL;
-            if(i == 0) {
-                particles = particle;
-                last_particle = particle;
-            } else {
-                last_particle->next = particle;
-                last_particle = particle;
-            }
-        }
-    }
+    particles = (GameObject *) calloc(sizeof(GameObject), PARTICLES_COUNT);
 
-    {
-        GameObject* particle = particles;
-        while(particle){
-            particle->velocity = velocity_create();
-            particle = (GameObject *)particle->next;
-        }
+    for(int i = 0; i < PARTICLES_COUNT; i++){
+        particles[i].velocity = velocity_create();
     }
-
+    
     SetCameraMode(camera, CAMERA_ORBITAL);
 
     SetTargetFPS(TARGET_FRAMES_PER_SECOND);
@@ -120,13 +94,6 @@ int main() {
     }
 #endif
 
-    GameObject* particle = particles;
-
-    while(particle){
-        particles = particle->next;
-        free(particle);
-        particle = particles;
-    }
-
+    free(particles);
     return 0;
 }

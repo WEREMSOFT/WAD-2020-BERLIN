@@ -2,10 +2,6 @@ include ./makefiles/define_useful_vars.mk
 include ./makefiles/dettect_os.mk
 include ./makefiles/configure_static_libraries_by_os.mk
 
-DEBUGGER := kdbg
-
-DEBUGGER := cgdb
-
 .PHONY: debug_optimized debug_unoptimized print_information create_folder_structure run_html_u run_html_o run_performance_test
 
 all: print_information $(BLD_D)main_optimized.bin $(BLD_D)main_unoptimized.bin $(HTML_D)main_optimized.html $(HTML_D)main_unoptimized.html
