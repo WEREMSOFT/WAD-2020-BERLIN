@@ -46,3 +46,6 @@ run_%: $(BLD_D)%.bin
 
 debug_%: $(BLD_D)%.bin
 	$(DEBUGGER) $^
+
+run_%: $(BLD_D)%.bin
+	$^

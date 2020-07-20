@@ -33,7 +33,6 @@ void UpdateDrawFrame() {
         particle->velocity = Vector3Add(particle->velocity, delta);
         particle->position = Vector3Add(particle->position, Vector3Scale(particle->velocity, delta_scalar));
 #else
-        float G = GRAVITY_SCALAR * delta_scalar;
         particle->velocity.y += GRAVITY_SCALAR * delta_scalar;
         particle->position.x += particle->velocity.x * delta_scalar;
         particle->position.y += particle->velocity.y * delta_scalar;
@@ -82,8 +81,11 @@ int main() {
     {
         GameObject* last_particle;
         // TODO: Create pointers instead of arrays
-        for(int i = 0; i < PARTICLES_COUNT; i++){
-            GameObject* particle = (GameObject *) calloc(sizeof(GameObject), 1);
+        GameObject* particle;
+        for(int i = 0;i < PARTICLES_COUNT/2; i++){
+            particle = (GameObject *) malloc(sizeof(GameObject));
+            // usleep(10);
+            // printf("%u | ", particle);
             particle->index = i;
             particle->next = NULL;
             if(i == 0) {
@@ -93,6 +95,16 @@ int main() {
                 last_particle->next = particle;
                 last_particle = particle;
             }
+        }
+
+        for(int i = 0;i < PARTICLES_COUNT/2; i++){
+            particle = (GameObject *) malloc(sizeof(GameObject));
+            // usleep(10);
+            // printf("%u | ", particle);
+            particle->index = i;
+            particle->next = NULL;
+            last_particle->next = particle;
+            last_particle = particle;
         }
     }
 

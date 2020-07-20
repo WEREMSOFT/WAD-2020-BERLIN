@@ -1,5 +1,8 @@
 #include "config.h"
 #include "benchmark_utils.h"
+#include <flecs.h>
+
+ecs_world_t *world;
 
 #define GRAVITY (Vector3){0, GRAVITY_SCALAR, 0}
 
