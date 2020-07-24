@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -O3   CMakeFiles/cpp-unfriendly.dir/src/main-unfriendly.cpp.o  -o cpp-unfriendly 

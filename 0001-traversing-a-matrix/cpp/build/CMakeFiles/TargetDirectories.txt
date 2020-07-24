@@ -1,0 +1,4 @@
+/home/werem/Documents/projects/other/WAD-2020-BERLIN/0001-traversing-a-matrix/cpp/build/CMakeFiles/rebuild_cache.dir
+/home/werem/Documents/projects/other/WAD-2020-BERLIN/0001-traversing-a-matrix/cpp/build/CMakeFiles/edit_cache.dir
+/home/werem/Documents/projects/other/WAD-2020-BERLIN/0001-traversing-a-matrix/cpp/build/CMakeFiles/cpp-unfriendly.dir
+/home/werem/Documents/projects/other/WAD-2020-BERLIN/0001-traversing-a-matrix/cpp/build/CMakeFiles/cpp-friendly.dir

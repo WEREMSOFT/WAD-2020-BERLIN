@@ -5,7 +5,7 @@
 #ifndef CPP_CONFIG_H
 #define CPP_CONFIG_H
 
-#define MATRIX_SIZE 80000
+#define MATRIX_SIZE 100000
 typedef char matrix_t;
 
 #endif //CPP_CONFIG_H

@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/werem/Documents/projects/other/WAD-2020-BERLIN/0001-traversing-a-matrix/cpp/src/config.h
+
+/home/werem/Documents/projects/other/WAD-2020-BERLIN/0001-traversing-a-matrix/cpp/src/main-unfriendly.cpp
+iostream
+-
+config.h
+/home/werem/Documents/projects/other/WAD-2020-BERLIN/0001-traversing-a-matrix/cpp/src/config.h
+

@@ -10,7 +10,7 @@ void draw_fps_graph()
 {
     static int samples[WINDOW_WIDTH];
     static int samples_index;
-    static uint64_t cycles_samples[WINDOW_WIDTH];
+    static long long int cycles_samples[WINDOW_WIDTH];
 
     samples_index %= WINDOW_WIDTH;
     samples[samples_index] =  WINDOW_HEIGHT - GetFPS();

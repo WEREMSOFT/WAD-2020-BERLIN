@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -O3   CMakeFiles/cpp-friendly.dir/src/main-friendly.cpp.o  -o cpp-friendly 

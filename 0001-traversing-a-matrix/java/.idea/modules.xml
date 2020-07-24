@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TraversingMatrix.iml" filepath="$PROJECT_DIR$/TraversingMatrix.iml" />
+      <module fileurl="file://$PROJECT_DIR$/traverse_matrix.iml" filepath="$PROJECT_DIR$/traverse_matrix.iml" />
     </modules>
   </component>
 </project>
